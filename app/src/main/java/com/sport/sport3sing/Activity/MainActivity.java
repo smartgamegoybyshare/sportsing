@@ -165,8 +165,9 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             checkBox.setChecked(true);
         }
 
-        homebuttondown.setBackgroundResource(R.drawable.homebutton);
-        homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
+        //homebuttondown.setBackgroundResource(R.drawable.homebutton);  //android:background語法
+        homebuttondown.setImageDrawable(this.getResources().getDrawable((R.drawable.homebutton)));  //android:src語法
+        homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);   //ScaleType等比例縮放僅適用android:src語法
         homebuttondown.setOnClickListener(view -> {
             if (behavior.getState() == STATE_EXPANDED) {
                 behavior.setState(STATE_COLLAPSED);
@@ -239,12 +240,14 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == STATE_EXPANDED) {
-                    homebuttondown.setBackgroundResource(R.drawable.homebuttondown);
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
+                    homebuttondown.setImageDrawable(MainActivity.this.getResources().
+                            getDrawable((R.drawable.homebuttondown)));
+                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
                 if (newState == STATE_COLLAPSED) {
-                    homebuttondown.setBackgroundResource(R.drawable.homebutton);
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
+                    homebuttondown.setImageDrawable(MainActivity.this.getResources().
+                            getDrawable((R.drawable.homebutton)));
+                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
             }
 
