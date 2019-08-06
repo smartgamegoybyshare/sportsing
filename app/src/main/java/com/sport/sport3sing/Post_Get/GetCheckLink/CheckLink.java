@@ -25,7 +25,7 @@ public class CheckLink {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
-        String url = "http://api-kz.zyue88.com/api/get_check_link";
+        String url = "http://api-kz.zyue88.com/api/get_link";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {

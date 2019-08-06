@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         }
 
         homebuttondown.setBackgroundResource(R.drawable.homebutton);
-        homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
         homebuttondown.setOnClickListener(view -> {
             if (behavior.getState() == STATE_EXPANDED) {
                 behavior.setState(STATE_COLLAPSED);
@@ -240,11 +240,11 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == STATE_EXPANDED) {
                     homebuttondown.setBackgroundResource(R.drawable.homebuttondown);
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
                 }
                 if (newState == STATE_COLLAPSED) {
                     homebuttondown.setBackgroundResource(R.drawable.homebutton);
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER);
                 }
             }
 
