@@ -27,9 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.sport.sport3sing.GetVersion.VersionCheck;
 import com.sport.sport3sing.Language.LanguageChose;
 import com.sport.sport3sing.Language.LanguageListener;
 import com.sport.sport3sing.Language.SetLanguage;
@@ -311,7 +309,10 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                             .setTitle("三昇信貸")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("This app have a new version.\nDo you want to update?")
-                                            .setPositiveButton("Yes", (dialog, which) -> getNewVersion())
+                                            .setPositiveButton("Yes", (dialog, which) -> {
+                                                getNewVersion();
+                                                finish();
+                                            })
                                             .setNegativeButton("No", (dialog, which) -> {
                                                 // TODO Auto-generated method stub
                                             }).show();
@@ -320,7 +321,10 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                             .setTitle("三昇信貸")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("偵測到有新版本\n現在要更新嗎?")
-                                            .setPositiveButton("確定", (dialog, which) -> getNewVersion())
+                                            .setPositiveButton("確定", (dialog, which) -> {
+                                                getNewVersion();
+                                                finish();
+                                            })
                                             .setNegativeButton("取消", (dialog, which) -> {
                                                 // TODO Auto-generated method stub
                                             }).show();
@@ -329,7 +333,10 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                             .setTitle("三昇信貸")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("侦测到有新版本\n现在要更新吗?")
-                                            .setPositiveButton("确定", (dialog, which) -> getNewVersion())
+                                            .setPositiveButton("确定", (dialog, which) -> {
+                                                getNewVersion();
+                                                finish();
+                                            })
                                             .setNegativeButton("取消", (dialog, which) -> {
                                                 // TODO Auto-generated method stub
                                             }).show();

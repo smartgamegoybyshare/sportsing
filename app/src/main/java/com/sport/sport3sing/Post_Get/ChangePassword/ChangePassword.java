@@ -40,6 +40,10 @@ public class ChangePassword {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                Log.e(TAG, "code = " + company);
+                Log.e(TAG, "identity = " + account);
+                Log.e(TAG, "old_password = " + old_password);
+                Log.e(TAG, "new_password = " + new_password);
                 params.put("code", company);
                 params.put("identity", account);
                 params.put("old_password", old_password);
