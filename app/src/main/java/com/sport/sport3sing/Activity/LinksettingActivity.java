@@ -211,6 +211,9 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                     } else if (Value.language_flag == 2) {
                         loading.show("获取资料中");
                     }
+                    editText1.setText("");
+                    editText2.setText("");
+                    editText3.setText("");
                     linkForm.setConnect(company, account, new_company, new_account, password, getLinkForm);
                 }
             });
@@ -328,6 +331,8 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
+                linksettingList = null;
+                listView.setAdapter(linksettingList);
             }
             showview();
         } catch (JSONException e) {

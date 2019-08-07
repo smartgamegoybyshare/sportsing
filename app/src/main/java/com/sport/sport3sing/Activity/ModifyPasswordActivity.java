@@ -197,6 +197,9 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
                 } else if (Value.language_flag == 2) {
                     loading.show("获取资料中");
                 }
+                editText1.setText("");
+                editText2.setText("");
+                editText3.setText("");
                 changePassword.setConnect(company, account, old_password, new_password, postChangePassword);
             }
         });

@@ -25,7 +25,7 @@ public class CheckAll {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
-        String url = "http://api-kz.zyue88.com/api/check_all";
+        String url = "https://api.kz168168.com/api/check_all";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {

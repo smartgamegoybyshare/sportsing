@@ -4,11 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.sport.sport3sing.GetVersion.VersionCheck;
 import com.sport.sport3sing.Language.LanguageChose;
 import com.sport.sport3sing.Language.LanguageListener;
 import com.sport.sport3sing.Language.SetLanguage;
@@ -44,13 +51,23 @@ import com.sport.sport3sing.Support.Loading;
 import com.sport.sport3sing.Support.MarqueeTextView;
 import com.sport.sport3sing.Support.Screen;
 import com.sport.sport3sing.Support.Value;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
+
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -84,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private Handler viewpageHandler = new Handler();
     private LanguageChose languageChose = new LanguageChose(this);
     private SetLanguage setLanguage = new SetLanguage();
+    private Handler checkHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         } else {
             Value.language_flag = languageSQL.getflag();
         }
+        new Thread(test).start();
         showview();
     }
 
@@ -258,6 +277,95 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         });
 
         setlistViewAdapter();
+    }
+
+    private Runnable test = new Runnable() {
+        @Override
+        public void run() {
+            getVersion();
+        }
+    };
+
+    private void getVersion() {
+        try {
+            URL url = new URL("http://3singsport.co/apk/kz-version.json");
+            HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
+            urlCon.setConnectTimeout(2000);
+            InputStream uin = urlCon.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uin));
+            boolean more = true;
+            String line;
+            for (; more; ) {
+                line = in.readLine();
+                if (line != null) {
+                    if (line.contains("version")) {
+                        line = "{" + line + "}";
+                        String thisversion = getVersionName(MainActivity.this);
+                        JSONObject jsonObject = new JSONObject(line);
+                        if (thisversion.matches(jsonObject.getString("version"))) {
+                            Log.e(TAG, "版本相同");
+                        } else {
+                            checkHandler.post(() -> {
+                                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                                    new AlertDialog.Builder(this)
+                                            .setTitle("三昇信貸")
+                                            .setIcon(R.drawable.app_icon_mini)
+                                            .setMessage("This app have a new version.\nDo you want to update?")
+                                            .setPositiveButton("Yes", (dialog, which) -> getNewVersion())
+                                            .setNegativeButton("No", (dialog, which) -> {
+                                                // TODO Auto-generated method stub
+                                            }).show();
+                                } else if (Value.language_flag == 1) {
+                                    new AlertDialog.Builder(this)
+                                            .setTitle("三昇信貸")
+                                            .setIcon(R.drawable.app_icon_mini)
+                                            .setMessage("偵測到有新版本\n現在要更新嗎?")
+                                            .setPositiveButton("確定", (dialog, which) -> getNewVersion())
+                                            .setNegativeButton("取消", (dialog, which) -> {
+                                                // TODO Auto-generated method stub
+                                            }).show();
+                                } else if (Value.language_flag == 2) {
+                                    new AlertDialog.Builder(this)
+                                            .setTitle("三昇信貸")
+                                            .setIcon(R.drawable.app_icon_mini)
+                                            .setMessage("侦测到有新版本\n现在要更新吗?")
+                                            .setPositiveButton("确定", (dialog, which) -> getNewVersion())
+                                            .setNegativeButton("取消", (dialog, which) -> {
+                                                // TODO Auto-generated method stub
+                                            }).show();
+                                }
+                                checkHandler.removeCallbacksAndMessages(null);
+                            });
+                        }
+                    }
+                } else more = false;
+            }
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "MalformedURLException = " + e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(TAG, "IOException = " + e);
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException = " + e);
+            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getNewVersion() {
+        Uri uri = Uri.parse("http://3singsport.co/apk/kz.apk");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
+    public String getVersionName(Context context) throws PackageManager.NameNotFoundException {
+        // 获取packagemanager的实例
+        PackageManager packageManager = context.getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        return packInfo.versionName;
     }
 
     private void nextPage() {

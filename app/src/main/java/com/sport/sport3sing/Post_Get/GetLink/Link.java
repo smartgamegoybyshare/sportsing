@@ -25,7 +25,7 @@ public class Link {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
-        String url = "http://api-kz.zyue88.com/api/get_link";
+        String url = "https://api.kz168168.com/api/get_link";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> {
