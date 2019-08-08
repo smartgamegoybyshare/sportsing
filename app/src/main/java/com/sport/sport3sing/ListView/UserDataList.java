@@ -79,11 +79,11 @@ public class UserDataList extends BaseAdapter {
                     remarks.setText(jsonObject.get("record_remark").toString());
                 }else if(Value.language_flag == 1){
                     date.setText(jsonObject.get("record_datetime_en").toString());
-                    chart_code.setText(jsonObject.get("record_chartcode").toString());
+                    chart_code.setText(jsonObject.get("record_chartcode_tw").toString());
                     remarks.setText(jsonObject.get("record_remark").toString());
                 }else if(Value.language_flag == 2){
                     date.setText(jsonObject.get("record_datetime_en").toString());
-                    chart_code.setText(jsonObject.get("record_chartcode").toString());
+                    chart_code.setText(jsonObject.get("record_chartcode_cn").toString());
                     remarks.setText(jsonObject.get("record_remark").toString());
                 }
                 String gain_value = jsonObject.get("record_amount_forex").toString();

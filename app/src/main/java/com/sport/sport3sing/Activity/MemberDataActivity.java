@@ -137,7 +137,13 @@ public class MemberDataActivity extends AppCompatActivity {
             textView2.setText(jsonObject.get("full_name").toString());    //姓名
             textView3.setText(jsonObject.get("guarantor").toString()); //擔保人
             textView4.setText(jsonObject.get("currency").toString()); //貨幣
-            textView5.setText(jsonObject.get("settlement_method").toString()); //交收方式
+            if(Value.language_flag == 0){
+                textView5.setText(jsonObject.get("settlement_method_en").toString()); //交收方式
+            }else if(Value.language_flag == 1){
+                textView5.setText(jsonObject.get("settlement_method_tw").toString()); //交收方式
+            }else if(Value.language_flag == 2){
+                textView5.setText(jsonObject.get("settlement_method_cn").toString()); //交收方式
+            }
             textView6.setText(jsonObject.get("share").toString()); //占成數(%)
             textView7.setText(jsonObject.get("skype").toString()); //Skype帳號
             textView8.setText(jsonObject.get("wechat").toString()); //Wechat帳號
