@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.sport.sport3sing.R;
+import com.sport.sport3sing.Support.Value;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
@@ -58,8 +60,17 @@ public class AccountLinkList extends BaseAdapter {
 
             String company = jsonObject.get("link_from_code").toString();
             String account = jsonObject.get("link_from_user").toString();
-            textView1.setText("公司：");
-            textView3.setText("帳號：");
+            if(Value.language_flag == 0){   //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                textView1.setText("Subcompany：");
+                textView3.setText("Account：");
+            }else if(Value.language_flag == 1){
+                textView1.setText("分公司：");
+                textView3.setText("戶口：");
+            }else if(Value.language_flag == 2){
+                textView1.setText("分公司：");
+                textView3.setText("户口：");
+            }
+
             textView2.setText(company);
             textView4.setText(account);
         } catch (JSONException e) {

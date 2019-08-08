@@ -117,11 +117,11 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                 title.setText("Combined A New Account");
                 back.setText("back");
-                textView1.setText("Company");
-                textView2.setText("Account");
+                textView1.setText("Sub Account");
+                textView2.setText("User");
                 textView3.setText("Password");
-                textView4.setText("Company");
-                textView5.setText("Account");
+                textView4.setText("Sub Account");
+                textView5.setText("User");
                 textView6.setText("Action");
                 button.setText("Comfirm");
                 copyright.setText(Value.copyright_text);
@@ -129,10 +129,10 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             } else if (Value.language_flag == 1) {
                 title.setText("綁定戶口");
                 back.setText("返回");
-                textView1.setText("公司");
+                textView1.setText("分公司/子帳號");
                 textView2.setText("戶口");
                 textView3.setText("密碼");
-                textView4.setText("公司");
+                textView4.setText("子帳號");
                 textView5.setText("戶口");
                 textView6.setText("操作");
                 button.setText("確認");
@@ -141,10 +141,10 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             } else if (Value.language_flag == 2) {
                 title.setText("绑定户口");
                 back.setText("返回");
-                textView1.setText("公司");
+                textView1.setText("分公司/子帐号");
                 textView2.setText("户口");
                 textView3.setText("密码");
-                textView4.setText("公司");
+                textView4.setText("子帐号");
                 textView5.setText("户口");
                 textView6.setText("操作");
                 button.setText("确认");
@@ -163,21 +163,21 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                 Log.e(TAG, "password = " + password);
                 if (company.matches("")) {
                     if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        Toast toast = Toast.makeText(this, "Company is empty", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     } else if (Value.language_flag == 1) {
-                        Toast toast = Toast.makeText(this, "公司不可為空", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     } else if (Value.language_flag == 2) {
-                        Toast toast = Toast.makeText(this, "公司不可为空", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }
                 } else if (account.matches("")) {
                     if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        Toast toast = Toast.makeText(this, "Account is empty", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     } else if (Value.language_flag == 1) {
@@ -319,15 +319,15 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             } else if (result.matches("error1")) {
                 loading.dismiss();
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "No Combined Company Account", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "No Combined Sub Account", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "無連結的公司戶口", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "無連結的子帳號戶口", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "无连结的公司户口", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "无连结的子帐号户口", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
@@ -406,15 +406,15 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             } else if (result.matches("error3")) {
                 loading.dismiss();
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Company Account Does Not Exist", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "Sub Account Does Not Exist", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "公司戶口不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帳號戶口不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "公司户口不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帐号户口不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
@@ -436,15 +436,15 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
             } else if (result.matches("error5")) {
                 loading.dismiss();
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Object Company Account Or Password Incorrect", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "Object Sub Account Or Password Incorrect", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "對象公司戶口或密碼錯誤", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "對象子帳號戶口或密碼錯誤", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "对象公司户口或密码错误", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "对象子帐号户口或密码错误", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }

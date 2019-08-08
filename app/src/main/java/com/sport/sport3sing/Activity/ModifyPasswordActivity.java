@@ -304,15 +304,15 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             } else if (result.matches("error3")) {
                 loading.dismiss();
                 if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Company Does Not Exist", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "Sub Account Does Not Exist", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }else if(Value.language_flag == 1){
-                    Toast toast = Toast.makeText(this, "公司不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帳號不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }else if(Value.language_flag == 2){
-                    Toast toast = Toast.makeText(this, "公司不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帐号不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }

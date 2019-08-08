@@ -90,7 +90,7 @@ public class MemberDataActivity extends AppCompatActivity {
             if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                 title.setText("Account");
                 back.setText("back");
-                memberAccount.setText("Account");
+                memberAccount.setText("User");
                 membername.setText("Name");
                 guarantor.setText("Guarantor");
                 currency.setText("Currency");

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -49,10 +48,8 @@ import com.sport.sport3sing.Support.Loading;
 import com.sport.sport3sing.Support.MarqueeTextView;
 import com.sport.sport3sing.Support.Screen;
 import com.sport.sport3sing.Support.Value;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,10 +59,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -200,21 +195,21 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
 
             if (company.matches("")) {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Company is empty", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "公司不可為空", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "公司不可为空", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
             } else if (account.matches("")) {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Account is empty", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
@@ -277,12 +272,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         setlistViewAdapter();
     }
 
-    private Runnable test = new Runnable() {
-        @Override
-        public void run() {
-            getVersion();
-        }
-    };
+    private Runnable test = this::getVersion;
 
     private void getVersion() {
         try {
@@ -303,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                         if (thisversion.matches(jsonObject.getString("version"))) {
                             Log.e(TAG, "版本相同");
                         } else {
+                            Log.e(TAG, "thisversion = " + thisversion);
+                            Log.e(TAG, "line = " + jsonObject.getString("version"));
                             checkHandler.post(() -> {
                                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                                     new AlertDialog.Builder(this)
@@ -592,15 +584,15 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             } else if (result.matches("error3")) {
                 loading.dismiss();
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Company Account Does Not Exist", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "Sub Account Does Not Exist", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "公司戶口不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帳號戶口不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "公司户口不存在", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "子帐号户口不存在", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }
@@ -629,19 +621,19 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     @Override
     public void setLanguage() {    //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
         if (Value.language_flag == 0) {
-            editText1.setHint("Company");
-            editText2.setHint("Account");
+            editText1.setHint("Sub Account");
+            editText2.setHint("User");
             editText3.setHint("Password");
             checkBox.setText("  Remember Me");
             login.setText("Login");
         } else if (Value.language_flag == 1) {
-            editText1.setHint("公司");
+            editText1.setHint("分公司/子帳號");
             editText2.setHint("戶口");
             editText3.setHint("密碼");
             checkBox.setText("  記住我的登入資訊");
             login.setText("登錄");
         } else if (Value.language_flag == 2) {
-            editText1.setHint("公司");
+            editText1.setHint("分公司/子帐号");
             editText2.setHint("户口");
             editText3.setHint("密码");
             checkBox.setText("  记住我的登陆资讯");

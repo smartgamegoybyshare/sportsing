@@ -62,9 +62,20 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
             e.printStackTrace();
         }
 
-        textView2.setText("[對帳提醒]");
-        textView3.setText("敬愛的客戶您好，提醒您於帳務核對無誤後，");
-        textView4.setText("按下「確認對帳」按鈕完成對帳確認。");
+        if(Value.language_flag == 0){
+            textView2.setText("[對帳提醒]");
+            textView3.setText("敬愛的客戶您好，提醒您於帳務核對無誤後，");
+            textView4.setText("按下「確認對帳」按鈕完成對帳確認。");
+        }else if(Value.language_flag == 1){
+            textView2.setText("[對帳提醒]");
+            textView3.setText("敬愛的客戶您好，提醒您於帳務核對無誤後，");
+            textView4.setText("按下「確認對帳」按鈕完成對帳確認。");
+        }else if(Value.language_flag == 2){
+            textView2.setText("[对帐提醒]");
+            textView3.setText("敬爱的客户您好，提醒您于帐务核对无误后，");
+            textView4.setText("按下「确认对帐」按钮完成对帐确认。");
+        }
+
         back.setOnClickListener(view -> homePage());
         Value.updateTime = getDateTime();
         setLanguage.setListener(this);

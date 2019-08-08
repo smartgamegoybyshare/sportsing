@@ -203,15 +203,15 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
             } else if (result.matches("error1")) {
                 loading.dismiss();
                 if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "No Combined Company Account", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "No Combined Sub Account", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }else if(Value.language_flag == 1){
-                    Toast toast = Toast.makeText(this, "無連結的公司戶口", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "無連結的子帳號戶口", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }else if(Value.language_flag == 2){
-                    Toast toast = Toast.makeText(this, "无连结的公司户口", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "无连结的子帐号户口", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,0);
                     toast.show();
                 }
