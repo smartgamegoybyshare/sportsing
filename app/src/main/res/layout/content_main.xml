@@ -415,11 +415,19 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout_title"
         app:layout_constraintVertical_bias="0.0">
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <ListView
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

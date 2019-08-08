@@ -32,6 +32,8 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.sport.sport3sing.Language.LanguageListener;
 import com.sport.sport3sing.Language.SetLanguage;
 import com.sport.sport3sing.ListView.UserDataList;
@@ -76,12 +78,13 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
     private GetUserRecord getUserRecord = new GetUserRecord();
     private CheckAll checkAll = new CheckAll(this);
     private GetCheck getCheck = new GetCheck();
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private TextView toolbartitle, nowtime, date, chartcode, remark, gain, loss, balance, refresh;
     private Button accountLink, checkform;
-    private Handler handler = new Handler(), buttonHandler = new Handler();
+    private Handler handler = new Handler(), buttonHandler = new Handler(), swipeHandler = new Handler();
     private PopupWindow popWindow;
-    private boolean popWindowView = false, regetalldata = false, language_bool = false;
+    private boolean popWindowView = false, regetalldata = false, language_bool = false, swipe = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         Log.d(TAG, "FormActivity");
         setContentView(R.layout.formpage);
         toolbartitle = findViewById(R.id.toolbar_title);
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
         listView = findViewById(R.id.listView1);
         nowtime = findViewById(R.id.nowTime);   //更新數據時間
         accountLink = findViewById(R.id.button1);   //客戶看帳按鈕
@@ -154,6 +158,11 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             JSONObject namedata = new JSONObject(getdata);
             String getname = namedata.get("username").toString();
             username.setText(getname);
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                swipe = true;
+                connectUserDataBase.setConnect(company, account, getUserData);
+            });
+            swipeRefreshLayout.setColorSchemeResources(R.color.progressColor);
             refresh.setOnClickListener(view -> {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     loading.show("Getting data");
@@ -680,6 +689,10 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             String result = responseJson.get("result").toString();
             if (result.matches("ok")) {
                 Log.e(TAG, "success = " + responseJson);
+                if(swipe){
+                    swipe = false;
+                    swipeHandler.postDelayed(() -> swipeRefreshLayout.setRefreshing(false), 2000);
+                }
                 Value.get_record = responseJson;
                 JSONArray jsonArray = new JSONArray(responseJson.get("records").toString());
                 if (Value.record == null) {
