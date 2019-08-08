@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     }
 
     private void getNewVersion() {
-        Uri uri = Uri.parse("http://3singsport.co/apk/kz.apk");
+        Uri uri = Uri.parse("https://dl.kz168168.com/apk/kz.apk");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
