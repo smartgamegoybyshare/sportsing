@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -23,6 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -30,6 +36,9 @@ public class MemberDataActivity extends AppCompatActivity {
 
     private String TAG = "MemberDataActivity";
     private String company, account;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private Handler handler = new Handler();
     public final static String WEIXIN_CHATTING_MIMETYPE = "vnd.android.cursor.item/vnd.com.tencent.mm.chatting.profile";    //微信聊天
 
     @Override
@@ -76,11 +85,20 @@ public class MemberDataActivity extends AppCompatActivity {
             TextView textView9 = findViewById(R.id.textView19); //remark
             TextView copyright = findViewById(R.id.copyright);
             TextView nowTime = findViewById(R.id.nowTime);
-            GifImageView gifImageView1 = findViewById(R.id.imageView1);
+            gifImageView1 = findViewById(R.id.imageView1);
 
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+            Runnable getimage = () -> {
+                String imageUri = "https://dl.kz168168.com/img/ad13.png";
+                preview_bitmap = fetchImage(imageUri);
+                handler.post(() -> {
+                    gifImageView1.setImageBitmap(preview_bitmap);
+                    gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                });
+            };
+            new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
             gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
+            gifImageView1.setImageDrawable(gifFromPath);*/
             gifImageView1.setOnClickListener(view -> {
                 //vibrator.vibrate(100);
                 Uri uri = Uri.parse("http://3singsport.win");
@@ -167,8 +185,6 @@ public class MemberDataActivity extends AppCompatActivity {
             back.setOnClickListener(view -> backform());
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -176,6 +192,23 @@ public class MemberDataActivity extends AppCompatActivity {
         String appName = "Skype";
         String packageName = "com.skype.raider";
         openApp(this, appName, packageName, skypename);
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void openApp(Context context, String appName, String packageName, String skypename) {

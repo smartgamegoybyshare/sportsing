@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             double gif_height = dm.widthPixels / 6.25;
             gif_linear.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (int) gif_height));
             Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/ad04.png";
+                String imageUri = "https://dl.kz168168.com/img/ad08.png";
                 preview_bitmap = fetchImage(imageUri);
                 adHandler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);

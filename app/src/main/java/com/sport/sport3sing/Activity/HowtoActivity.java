@@ -56,7 +56,7 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
         GifImageView gifImageView2 = findViewById(R.id.imageView2); //說明圖
         try {
             Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/ad05.png";
+                String imageUri = "https://dl.kz168168.com/img/ad09.png";
                 preview_bitmap = fetchImage(imageUri);
                 handler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);

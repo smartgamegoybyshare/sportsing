@@ -2,8 +2,11 @@ package com.sport.sport3sing.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -25,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import pl.droidsonroids.gif.GifDrawable;
@@ -35,6 +41,9 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
     private String TAG = "AccountLinkActivity";
     private String company, account;
     private ListView listView;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private Handler handler = new Handler();
     private Loading loading = new Loading(this);
     private CheckLink checkLink = new CheckLink(this);
     private GetCheckLink getCheckLink = new GetCheckLink();
@@ -74,20 +83,25 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
         TextView copyright = findViewById(R.id.copyright);
         TextView nowTime = findViewById(R.id.nowTime);
         listView = findViewById(R.id.listView1);
-        GifImageView gifImageView1 = findViewById(R.id.imageView1);
-        try {
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
-            gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
-            gifImageView1.setOnClickListener(view -> {
-                //vibrator.vibrate(100);
-                Uri uri = Uri.parse("http://3singsport.win");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+        gifImageView1 = findViewById(R.id.imageView1);
+        Runnable getimage = () -> {
+            String imageUri = "https://dl.kz168168.com/img/ad11.png";
+            preview_bitmap = fetchImage(imageUri);
+            handler.post(() -> {
+                gifImageView1.setImageBitmap(preview_bitmap);
+                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        };
+        new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+            gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            gifImageView1.setImageDrawable(gifFromPath);*/
+        gifImageView1.setOnClickListener(view -> {
+            //vibrator.vibrate(100);
+            Uri uri = Uri.parse("http://3singsport.win");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
         copyright.setText(Value.copyright_text + Value.ver);
         if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
@@ -121,6 +135,23 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void backform() {

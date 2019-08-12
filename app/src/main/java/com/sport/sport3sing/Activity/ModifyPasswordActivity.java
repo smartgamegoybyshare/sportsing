@@ -2,8 +2,11 @@ package com.sport.sport3sing.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -23,6 +26,9 @@ import com.sport.sport3sing.Support.Value;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -30,6 +36,9 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
 
     private String TAG = "ModifyPasswordActivity";
     private String company, account;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private Handler handler = new Handler();
     private Loading loading = new Loading(this);
     private ChangePassword changePassword = new ChangePassword(this);
     private PostChangePassword postChangePassword = new PostChangePassword();
@@ -69,20 +78,25 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
         Button button = findViewById(R.id.button);  //修改按鈕
         TextView copyright = findViewById(R.id.copyright);  //下方版權
         TextView nowTime = findViewById(R.id.nowTime);  //資料庫數據更新時間
-        GifImageView gifImageView1 = findViewById(R.id.imageView1); //廣告欄
-        try {
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
-            gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
-            gifImageView1.setOnClickListener(view -> {
-                //vibrator.vibrate(100);
-                Uri uri = Uri.parse("http://3singsport.win");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+        gifImageView1 = findViewById(R.id.imageView1); //廣告欄
+        Runnable getimage = () -> {
+            String imageUri = "https://dl.kz168168.com/img/ad12.png";
+            preview_bitmap = fetchImage(imageUri);
+            handler.post(() -> {
+                gifImageView1.setImageBitmap(preview_bitmap);
+                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        };
+        new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+            gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            gifImageView1.setImageDrawable(gifFromPath);*/
+        gifImageView1.setOnClickListener(view -> {
+            //vibrator.vibrate(100);
+            Uri uri = Uri.parse("http://3singsport.win");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
         if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             textView.setText("Change Password");
             textView1.setText("back");
@@ -200,6 +214,23 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
                 changePassword.setConnect(company, account, old_password, new_password, postChangePassword);
             }
         });
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void backform() {

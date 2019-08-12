@@ -2,8 +2,11 @@ package com.sport.sport3sing.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -15,9 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.sport.sport3sing.ListView.InnerItem.GetInnerItem;
 import com.sport.sport3sing.ListView.InnerItem.InnerItemOnclickListener;
 import com.sport.sport3sing.ListView.LinksettingList;
@@ -33,15 +34,15 @@ import com.sport.sport3sing.Post_Get.LinkForm.LinkFormListener;
 import com.sport.sport3sing.R;
 import com.sport.sport3sing.Support.Loading;
 import com.sport.sport3sing.Support.Value;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -50,6 +51,9 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
 
     private String TAG = "LinksettingActivity";
     private String company, account;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private Handler handler = new Handler();
     private Link link = new Link(this);
     private Loading loading = new Loading(this);
     private GetLink getLink = new GetLink();
@@ -76,152 +80,157 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
 
     @SuppressLint("SetTextI18n")
     private void setView() {
-        try {
-            Intent intent = getIntent();
-            company = intent.getStringExtra("company");
-            account = intent.getStringExtra("account");
-            Log.e(TAG, "company = " + company);
-            Log.e(TAG, "account = " + account);
+        Intent intent = getIntent();
+        company = intent.getStringExtra("company");
+        account = intent.getStringExtra("account");
+        Log.e(TAG, "company = " + company);
+        Log.e(TAG, "account = " + account);
 
-            getLink.setListener(this);
-            getInnerItem.setInnerItemOnclickListener(this);
-            getCancelLink.setListener(this);
-            getLinkForm.setListener(this);
+        getLink.setListener(this);
+        getInnerItem.setInnerItemOnclickListener(this);
+        getCancelLink.setListener(this);
+        getLinkForm.setListener(this);
 
-            TextView title = findViewById(R.id.textView);   //會員資料
-            TextView back = findViewById(R.id.textView1);   //返回
-            TextView textView1 = findViewById(R.id.textView2);  //公司
-            TextView textView2 = findViewById(R.id.textView3);  //帳號
-            TextView textView3 = findViewById(R.id.textView4);  //密碼
-            TextView textView4 = findViewById(R.id.textView5);  //公司
-            TextView textView5 = findViewById(R.id.textView6);  //帳號
-            TextView textView6 = findViewById(R.id.textView7);  //操作
-            TextView copyright = findViewById(R.id.copyright);
-            TextView nowTime = findViewById(R.id.nowTime);
-            editText1 = findViewById(R.id.editText1);  //公司
-            editText2 = findViewById(R.id.editText2);  //帳號
-            editText3 = findViewById(R.id.editText3);  //密碼
-            Button button = findViewById(R.id.button1); //確認鈕
-            listView = findViewById(R.id.listView1);
-            GifImageView gifImageView1 = findViewById(R.id.imageView1);
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+        TextView title = findViewById(R.id.textView);   //會員資料
+        TextView back = findViewById(R.id.textView1);   //返回
+        TextView textView1 = findViewById(R.id.textView2);  //公司
+        TextView textView2 = findViewById(R.id.textView3);  //帳號
+        TextView textView3 = findViewById(R.id.textView4);  //密碼
+        TextView textView4 = findViewById(R.id.textView5);  //公司
+        TextView textView5 = findViewById(R.id.textView6);  //帳號
+        TextView textView6 = findViewById(R.id.textView7);  //操作
+        TextView copyright = findViewById(R.id.copyright);
+        TextView nowTime = findViewById(R.id.nowTime);
+        editText1 = findViewById(R.id.editText1);  //公司
+        editText2 = findViewById(R.id.editText2);  //帳號
+        editText3 = findViewById(R.id.editText3);  //密碼
+        Button button = findViewById(R.id.button1); //確認鈕
+        listView = findViewById(R.id.listView1);
+        gifImageView1 = findViewById(R.id.imageView1);
 
+        Runnable getimage = () -> {
+            String imageUri = "https://dl.kz168168.com/img/ad14.png";
+            preview_bitmap = fetchImage(imageUri);
+            handler.post(() -> {
+                gifImageView1.setImageBitmap(preview_bitmap);
+                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            });
+        };
+        new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
             gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
-            gifImageView1.setOnClickListener(view -> {
-                Uri uri = Uri.parse("http://3singsport.win");
-                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent2);
-            });
+            gifImageView1.setImageDrawable(gifFromPath);*/
+        gifImageView1.setOnClickListener(view -> {
+            Uri uri = Uri.parse("http://3singsport.win");
+            Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent2);
+        });
 
-            if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                title.setText("Combined A New Account");
-                back.setText("back");
-                textView1.setText("Sub Account");
-                textView2.setText("User");
-                textView3.setText("Password");
-                textView4.setText("Sub Account");
-                textView5.setText("User");
-                textView6.setText("Action");
-                button.setText("Comfirm");
-                copyright.setText(Value.copyright_text + Value.ver);
-                nowTime.setText(Value.updatestring + Value.updateTime);
-            } else if (Value.language_flag == 1) {
-                title.setText("綁定戶口");
-                back.setText("返回");
-                textView1.setText("分公司/子帳號");
-                textView2.setText("戶口");
-                textView3.setText("密碼");
-                textView4.setText("子帳號");
-                textView5.setText("戶口");
-                textView6.setText("操作");
-                button.setText("確認");
-                copyright.setText(Value.copyright_text + Value.ver);
-                nowTime.setText(Value.updatestring + Value.updateTime);
-            } else if (Value.language_flag == 2) {
-                title.setText("绑定户口");
-                back.setText("返回");
-                textView1.setText("分公司/子帐号");
-                textView2.setText("户口");
-                textView3.setText("密码");
-                textView4.setText("子帐号");
-                textView5.setText("户口");
-                textView6.setText("操作");
-                button.setText("确认");
-                copyright.setText(Value.copyright_text + Value.ver);
-                nowTime.setText(Value.updatestring + Value.updateTime);
-            }
-
-            back.setOnClickListener(view -> backform());
-
-            button.setOnClickListener(view -> {
-                String new_company = editText1.getText().toString().trim();
-                String new_account = editText2.getText().toString().trim();
-                String password = editText3.getText().toString().trim();
-                Log.e(TAG, "new_company = " + new_company);
-                Log.e(TAG, "new_account = " + new_account);
-                Log.e(TAG, "password = " + password);
-                if (company.matches("")) {
-                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 1) {
-                        Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 2) {
-                        Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                } else if (account.matches("")) {
-                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 1) {
-                        Toast toast = Toast.makeText(this, "戶口不可為空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 2) {
-                        Toast toast = Toast.makeText(this, "户口不可为空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                } else if (password.matches("")) {
-                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        Toast toast = Toast.makeText(this, "Password is empty", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 1) {
-                        Toast toast = Toast.makeText(this, "密碼不可為空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    } else if (Value.language_flag == 2) {
-                        Toast toast = Toast.makeText(this, "密码不可为空", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                } else {
-                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                        loading.show("Getting data");
-                    } else if (Value.language_flag == 1) {
-                        loading.show("取得資料中");
-                    } else if (Value.language_flag == 2) {
-                        loading.show("获取资料中");
-                    }
-                    editText1.setText("");
-                    editText2.setText("");
-                    editText3.setText("");
-                    linkForm.setConnect(company, account, new_company, new_account, password, getLinkForm);
-                }
-            });
-
-            getLink();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+            title.setText("Combined A New Account");
+            back.setText("back");
+            textView1.setText("Sub Account");
+            textView2.setText("User");
+            textView3.setText("Password");
+            textView4.setText("Sub Account");
+            textView5.setText("User");
+            textView6.setText("Action");
+            button.setText("Comfirm");
+            copyright.setText(Value.copyright_text + Value.ver);
+            nowTime.setText(Value.updatestring + Value.updateTime);
+        } else if (Value.language_flag == 1) {
+            title.setText("綁定戶口");
+            back.setText("返回");
+            textView1.setText("分公司/子帳號");
+            textView2.setText("戶口");
+            textView3.setText("密碼");
+            textView4.setText("子帳號");
+            textView5.setText("戶口");
+            textView6.setText("操作");
+            button.setText("確認");
+            copyright.setText(Value.copyright_text + Value.ver);
+            nowTime.setText(Value.updatestring + Value.updateTime);
+        } else if (Value.language_flag == 2) {
+            title.setText("绑定户口");
+            back.setText("返回");
+            textView1.setText("分公司/子帐号");
+            textView2.setText("户口");
+            textView3.setText("密码");
+            textView4.setText("子帐号");
+            textView5.setText("户口");
+            textView6.setText("操作");
+            button.setText("确认");
+            copyright.setText(Value.copyright_text + Value.ver);
+            nowTime.setText(Value.updatestring + Value.updateTime);
         }
+
+        back.setOnClickListener(view -> backform());
+
+        button.setOnClickListener(view -> {
+            String new_company = editText1.getText().toString().trim();
+            String new_account = editText2.getText().toString().trim();
+            String password = editText3.getText().toString().trim();
+            Log.e(TAG, "new_company = " + new_company);
+            Log.e(TAG, "new_account = " + new_account);
+            Log.e(TAG, "password = " + password);
+            if (company.matches("")) {
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 1) {
+                    Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 2) {
+                    Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            } else if (account.matches("")) {
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 1) {
+                    Toast toast = Toast.makeText(this, "戶口不可為空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 2) {
+                    Toast toast = Toast.makeText(this, "户口不可为空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            } else if (password.matches("")) {
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    Toast toast = Toast.makeText(this, "Password is empty", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 1) {
+                    Toast toast = Toast.makeText(this, "密碼不可為空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (Value.language_flag == 2) {
+                    Toast toast = Toast.makeText(this, "密码不可为空", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            } else {
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    loading.show("Getting data");
+                } else if (Value.language_flag == 1) {
+                    loading.show("取得資料中");
+                } else if (Value.language_flag == 2) {
+                    loading.show("获取资料中");
+                }
+                editText1.setText("");
+                editText2.setText("");
+                editText3.setText("");
+                linkForm.setConnect(company, account, new_company, new_account, password, getLinkForm);
+            }
+        });
+
+        getLink();
     }
 
     private void getLink() {
@@ -234,6 +243,23 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
         }
 
         link.setConnect(company, account, getLink);
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void showview() {
