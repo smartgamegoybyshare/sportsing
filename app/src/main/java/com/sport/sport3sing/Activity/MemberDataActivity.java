@@ -99,7 +99,7 @@ public class MemberDataActivity extends AppCompatActivity {
                 skypeAccount.setText("Skype");
                 weChatAccount.setText("Wechat");
                 remark.setText("Remarks");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }else if(Value.language_flag == 1){
                 title.setText("戶口資料");
@@ -113,7 +113,7 @@ public class MemberDataActivity extends AppCompatActivity {
                 skypeAccount.setText("Skype");
                 weChatAccount.setText("Wechat");
                 remark.setText("備註");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }else if(Value.language_flag == 2){
                 title.setText("户口资料");
@@ -127,7 +127,7 @@ public class MemberDataActivity extends AppCompatActivity {
                 skypeAccount.setText("Skype");
                 weChatAccount.setText("Wechat");
                 remark.setText("备注");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }
 

@@ -154,17 +154,17 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
         if(Value.language_flag == 0){
             title.setText("Check Notice");
             back.setText("back");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 1){
             title.setText("對帳通知");
             back.setText("返回");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 2){
             title.setText("对帐通知");
             back.setText("返回");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }
     }

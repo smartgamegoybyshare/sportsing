@@ -89,7 +89,7 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
             e.printStackTrace();
         }
 
-        copyright.setText(Value.copyright_text);
+        copyright.setText(Value.copyright_text + Value.ver);
         if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             title.setText("Combine");
             back.setText("back");

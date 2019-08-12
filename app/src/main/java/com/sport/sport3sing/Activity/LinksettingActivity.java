@@ -124,7 +124,7 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                 textView5.setText("User");
                 textView6.setText("Action");
                 button.setText("Comfirm");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             } else if (Value.language_flag == 1) {
                 title.setText("綁定戶口");
@@ -136,7 +136,7 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                 textView5.setText("戶口");
                 textView6.setText("操作");
                 button.setText("確認");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             } else if (Value.language_flag == 2) {
                 title.setText("绑定户口");
@@ -148,7 +148,7 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                 textView5.setText("户口");
                 textView6.setText("操作");
                 button.setText("确认");
-                copyright.setText(Value.copyright_text);
+                copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }
 

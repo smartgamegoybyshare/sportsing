@@ -202,7 +202,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                     checkAll.setConnect(company, account, getCheck);
                 });
             }
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             listButtondown.setOnClickListener(view -> {
                 listButtondown.setVisibility(View.GONE);
                 listButtonup.setVisibility(View.GONE);

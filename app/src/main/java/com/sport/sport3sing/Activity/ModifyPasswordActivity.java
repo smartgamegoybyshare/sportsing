@@ -90,7 +90,7 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView3.setText("New Password (at least 6 characters long)");
             textView4.setText("Confirm New Password");
             button.setText("Comfirm");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 1){
             textView.setText("修改密碼");
@@ -99,7 +99,7 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView3.setText("新密碼(至少含6字元長度)");
             textView4.setText("確認新密碼");
             button.setText("確認");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 2){
             textView.setText("修改密码");
@@ -108,7 +108,7 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView3.setText("新密码(最少6位)");
             textView4.setText("确认新密码");
             button.setText("确认");
-            copyright.setText(Value.copyright_text);
+            copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
         }
 

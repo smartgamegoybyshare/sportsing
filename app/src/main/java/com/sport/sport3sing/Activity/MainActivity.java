@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.sport.sport3sing.Language.LanguageChose;
 import com.sport.sport3sing.Language.LanguageListener;
@@ -48,8 +50,10 @@ import com.sport.sport3sing.Support.Loading;
 import com.sport.sport3sing.Support.MarqueeTextView;
 import com.sport.sport3sing.Support.Screen;
 import com.sport.sport3sing.Support.Value;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,8 +63,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
+
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -160,7 +166,14 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             });
+
+            String thisversion = getVersionName(MainActivity.this);
+            Log.e(TAG, "thisversion = " + thisversion);
+            Value.ver = thisversion;
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         listView();
