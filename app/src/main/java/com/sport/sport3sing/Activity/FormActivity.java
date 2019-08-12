@@ -144,8 +144,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 gifImageView1.setImageDrawable(gifFromPath);
                 gifImageView1.setOnClickListener(view -> {
-                    //vibrator.vibrate(100);
-                    Uri uri = Uri.parse("http://3singsport.win");
+                    Uri uri = Uri.parse("http://181282.com/");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 });
@@ -274,8 +273,8 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
     private void homePage() {
         if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             new AlertDialog.Builder(FormActivity.this)
-                    .setTitle(R.string.app_name)
-                    .setIcon(R.drawable.app_icon_mini)
+                    .setTitle("努霸財富管家")
+                    .setIcon(R.drawable.app_icon_mini2)
                     .setMessage("Do you want to Logout?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);
@@ -289,8 +288,8 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                     }).show();
         } else if (Value.language_flag == 1) {
             new AlertDialog.Builder(FormActivity.this)
-                    .setTitle(R.string.app_name)
-                    .setIcon(R.drawable.app_icon_mini)
+                    .setTitle("努霸財富管家")
+                    .setIcon(R.drawable.app_icon_mini2)
                     .setMessage("確定要登出?")
                     .setPositiveButton("確定", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);
@@ -304,8 +303,8 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                     }).show();
         } else if (Value.language_flag == 2) {
             new AlertDialog.Builder(FormActivity.this)
-                    .setTitle(R.string.app_name)
-                    .setIcon(R.drawable.app_icon_mini)
+                    .setTitle("努霸财富管家")
+                    .setIcon(R.drawable.app_icon_mini2)
                     .setMessage("确定要登出?")
                     .setPositiveButton("确定", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);
