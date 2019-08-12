@@ -3,6 +3,8 @@ package com.sport.sport3sing.Activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -33,7 +35,6 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.sport.sport3sing.Language.LanguageListener;
 import com.sport.sport3sing.Language.SetLanguage;
 import com.sport.sport3sing.ListView.UserDataList;
@@ -54,7 +55,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,8 +84,10 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
     private GetCheck getCheck = new GetCheck();
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
-    private TextView toolbartitle, nowtime, date, chartcode, remark, gain, loss, balance, refresh;
-    private Button accountLink, checkform;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private TextView toolbartitle, nowtime, date, chartcode, remark, gain, loss, balance;
+    private Button accountLink, checkform, refresh;
     private Handler handler = new Handler(), buttonHandler = new Handler(), swipeHandler = new Handler();
     private PopupWindow popWindow;
     private boolean popWindowView = false, regetalldata = false, language_bool = false, swipe = false;
@@ -103,7 +109,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         gain = findViewById(R.id.textView6);
         loss = findViewById(R.id.textView7);
         balance = findViewById(R.id.textView8);
-        refresh = findViewById(R.id.textView2);
+        refresh = findViewById(R.id.button5);
         if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             loading.show("Getting data");
         } else if (Value.language_flag == 1) {
@@ -138,19 +144,24 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             Button listButtondown = findViewById(R.id.button3);
             Button listButtonup = findViewById(R.id.button4);
             TextView username = findViewById(R.id.textView1);
-            GifImageView gifImageView1 = findViewById(R.id.imageView1);
-            try {
-                GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto2);
-                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                gifImageView1.setImageDrawable(gifFromPath);
-                gifImageView1.setOnClickListener(view -> {
-                    Uri uri = Uri.parse("http://181282.com/");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
+            gifImageView1 = findViewById(R.id.imageView1);
+            Runnable getimage = () -> {
+                String imageUri = "https://dl.kz168168.com/img/ad06.png";
+                preview_bitmap = fetchImage(imageUri);
+                handler.post(() -> {
+                    gifImageView1.setImageBitmap(preview_bitmap);
+                    gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            };
+            new Thread(getimage).start();
+                /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto2);
+                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                gifImageView1.setImageDrawable(gifFromPath);*/
+            gifImageView1.setOnClickListener(view -> {
+                Uri uri = Uri.parse("http://181282.com/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            });
             String userdata = Value.get_user_data.get("records").toString();
             JSONArray userdatas = new JSONArray(userdata);
             String getdata = userdatas.get(0).toString();
@@ -162,6 +173,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 connectUserDataBase.setConnect(company, account, getUserData);
             });
             swipeRefreshLayout.setColorSchemeResources(R.color.progressColor);
+            refresh.setTextColor(Color.WHITE);
             refresh.setOnClickListener(view -> {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     loading.show("Getting data");
@@ -177,7 +189,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             accountLink.setOnClickListener(View -> accountLink());
             if (Value.get_record.get("all_checked").toString().matches("n")) {
                 checkform.setTextColor(Color.WHITE);
-                checkform.setBackgroundResource(R.drawable.button_right_n);
+                checkform.setBackgroundResource(R.drawable.checkall_style);
                 checkform.setOnClickListener(view -> {
                     if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                         loading.show("Checking data");
@@ -190,7 +202,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 });
             } else {
                 checkform.setTextColor(Color.WHITE);
-                checkform.setBackgroundResource(R.drawable.button_right_y);
+                checkform.setBackgroundResource(R.drawable.checkall_style2);
                 checkform.setOnClickListener(view -> {
                     if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                         loading.show("Checking data");
@@ -260,6 +272,23 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getDateTime() {

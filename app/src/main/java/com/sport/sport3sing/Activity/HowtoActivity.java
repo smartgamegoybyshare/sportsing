@@ -2,8 +2,11 @@ package com.sport.sport3sing.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -15,6 +18,9 @@ import com.sport.sport3sing.Language.SetLanguage;
 import com.sport.sport3sing.R;
 import com.sport.sport3sing.Support.Value;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -26,6 +32,9 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
     private String TAG = "HowtoActivity";
     private SetLanguage setLanguage = new SetLanguage();
     private TextView title, back, copyright, nowTime;
+    private Bitmap preview_bitmap;
+    private GifImageView gifImageView1;
+    private Handler handler = new Handler();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -43,12 +52,21 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
         TextView textView4 = findViewById(R.id.textView4);
         copyright = findViewById(R.id.copyright);
         nowTime = findViewById(R.id.nowTime);
-        GifImageView gifImageView1 = findViewById(R.id.imageView1); //廣告欄
+        gifImageView1 = findViewById(R.id.imageView1); //廣告欄
         GifImageView gifImageView2 = findViewById(R.id.imageView2); //說明圖
         try {
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+            Runnable getimage = () -> {
+                String imageUri = "https://dl.kz168168.com/img/ad05.png";
+                preview_bitmap = fetchImage(imageUri);
+                handler.post(() -> {
+                    gifImageView1.setImageBitmap(preview_bitmap);
+                    gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                });
+            };
+            new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
             gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
+            gifImageView1.setImageDrawable(gifFromPath);*/
             gifImageView1.setOnClickListener(view -> {
                 Uri uri = Uri.parse("http://3singsport.win");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -80,6 +98,23 @@ public class HowtoActivity extends AppCompatActivity implements LanguageListener
         Value.updateTime = getDateTime();
         setLanguage.setListener(this);
         setLanguage.isSet();
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private String getDateTime() {

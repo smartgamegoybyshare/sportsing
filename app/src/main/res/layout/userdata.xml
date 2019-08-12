@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:gravity="end"
-                android:paddingEnd="2dp"
+                android:paddingEnd="4dp"
                 android:singleLine="false"
                 android:text="Balance"
                 android:textSize="10sp"

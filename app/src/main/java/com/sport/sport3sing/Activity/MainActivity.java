@@ -4,16 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.sport.sport3sing.Language.LanguageChose;
 import com.sport.sport3sing.Language.LanguageListener;
@@ -50,10 +49,8 @@ import com.sport.sport3sing.Support.Loading;
 import com.sport.sport3sing.Support.MarqueeTextView;
 import com.sport.sport3sing.Support.Screen;
 import com.sport.sport3sing.Support.Value;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,10 +60,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -97,10 +92,13 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private Button login;
     private ListView listView;
     private List<String> dataList;
+    private GifImageView gifImageView1;
+    private Bitmap bitmap_title, preview_bitmap;
+    private ImageView imageViewtitle;
     private Handler viewpageHandler = new Handler();
     private LanguageChose languageChose = new LanguageChose(this);
     private SetLanguage setLanguage = new SetLanguage();
-    private Handler checkHandler = new Handler();
+    private Handler checkHandler = new Handler(), titleHandler = new Handler(), adHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private void showview() {
         setContentView(R.layout.homepage);
 
+        imageViewtitle = findViewById(R.id.imageView1);
         ImageView homebuttondown = findViewById(R.id.homebuttondown);   //隱藏的上拉view
         LinearLayout gif_linear = findViewById(R.id.linear_gif);    //廣告欄
         LinearLayout bottom = findViewById(R.id.bottom_button); //隱藏的上拉view的欄框
@@ -149,7 +148,17 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
 
         object.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (4 * dm.heightPixels) / 10));
         bottom.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels / 10));
-        GifImageView gifImageView1 = findViewById(R.id.imageView4); //廣告圖
+        gifImageView1 = findViewById(R.id.imageView4); //廣告圖
+
+        Runnable gettitle = () -> {
+            String imageUri = "https://dl.kz168168.com/img/logo02.png";
+            bitmap_title = fetchImage(imageUri);
+            titleHandler.post(() -> {
+                imageViewtitle.setImageBitmap(bitmap_title);
+                imageViewtitle.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            });
+        };
+        new Thread(gettitle).start();
         try {
             /*
             因上拉頁面nestedscrollview無法使用適配螢幕比
@@ -157,10 +166,18 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             */
             double gif_height = dm.widthPixels / 6.25;
             gif_linear.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (int) gif_height));
-
-            GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
+            Runnable getimage = () -> {
+                String imageUri = "https://dl.kz168168.com/img/ad04.png";
+                preview_bitmap = fetchImage(imageUri);
+                adHandler.post(() -> {
+                    gifImageView1.setImageBitmap(preview_bitmap);
+                    gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                });
+            };
+            new Thread(getimage).start();
+            /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
             gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            gifImageView1.setImageDrawable(gifFromPath);
+            gifImageView1.setImageDrawable(gifFromPath);*/
             gifImageView1.setOnClickListener(view -> {
                 Uri uri = Uri.parse("http://3singsport.win");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -171,8 +188,6 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             Log.e(TAG, "thisversion = " + thisversion);
             Value.ver = thisversion;
 
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -365,6 +380,23 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+        try {
+            URL url;
+            url = new URL(urlstr);
+            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
+            c.setDoInput( true );
+            c.connect();
+            InputStream is = c.getInputStream();
+            Bitmap img;
+            img = BitmapFactory.decodeStream(is);
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void getNewVersion() {

@@ -151,12 +151,12 @@ public class UserDataList extends BaseAdapter {
 
                 date.setText("");
                 chart_code.setText("");
-                linearLayout1.setBackgroundResource(R.drawable.datalist_total_first);
+                linearLayout1.setBackgroundResource(R.drawable.liststyle_left);
                 linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom);
                 linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
                 linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
                 linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+                linearLayout6.setBackgroundResource(R.drawable.liststyle_right);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
