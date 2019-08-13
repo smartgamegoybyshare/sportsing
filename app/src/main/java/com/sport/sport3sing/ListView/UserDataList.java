@@ -9,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.sport.sport3sing.R;
 import com.sport.sport3sing.Support.Value;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class UserDataList extends BaseAdapter {
@@ -107,12 +104,21 @@ public class UserDataList extends BaseAdapter {
                 e.printStackTrace();
             }
 
-            linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame);
-            linearLayout2.setBackgroundResource(R.drawable.datalist_frame);
-            linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
-            linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
-            linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
-            linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+            if(position % 2 == 0) {
+                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame);
+                linearLayout2.setBackgroundResource(R.drawable.datalist_frame);
+                linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
+                linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
+                linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
+                linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+            }else {
+                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
+                linearLayout2.setBackgroundResource(R.drawable.datalist_frame_blue);
+                linearLayout3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                linearLayout4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                linearLayout5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                linearLayout6.setBackgroundResource(R.drawable.datalist_frame_blue);
+            }
         } else {
             JSONObject jsonObject;
             try {
@@ -151,12 +157,22 @@ public class UserDataList extends BaseAdapter {
 
                 date.setText("");
                 chart_code.setText("");
-                linearLayout1.setBackgroundResource(R.drawable.liststyle_left);
-                linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom);
-                linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout6.setBackgroundResource(R.drawable.liststyle_right);
+
+                if(position % 2 == 0) {
+                    linearLayout1.setBackgroundResource(R.drawable.liststyle_left);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout6.setBackgroundResource(R.drawable.liststyle_right);
+                }else {
+                    linearLayout1.setBackgroundResource(R.drawable.liststyle_left_blue);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_blue);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout6.setBackgroundResource(R.drawable.liststyle_right_blue);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
