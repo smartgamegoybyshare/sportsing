@@ -16,19 +16,33 @@ import com.sport.sport3sing.R;
 import com.sport.sport3sing.Support.Value;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinksettingList extends BaseAdapter implements View.OnClickListener {
 
     private String TAG= "LinksettingList";
     private GetInnerItem getInnerItem;
-    private LayoutInflater inflater;
     private List<String> userLink;
+    private List<View> saveView;
+    private List<ViewHolder> saveHolder;
 
     public LinksettingList(Context context, List<String> userLink, GetInnerItem getInnerItem) {
         this.userLink = userLink;
-        inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
         this.getInnerItem = getInnerItem;
+        saveView = new ArrayList<>();
+        saveHolder = new ArrayList<>();
+        saveView.clear();
+        saveHolder.clear();
+        for(int i = 0; i < userLink.size(); i++){
+            @SuppressLint("InflateParams")
+            View view = inflater.inflate(R.layout.linksetlist, null);
+            ViewHolder viewHolder = new ViewHolder();
+            saveView.add(view);
+            saveHolder.add(viewHolder);
+        }
     }
 
     @Override
@@ -51,18 +65,9 @@ public class LinksettingList extends BaseAdapter implements View.OnClickListener
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         View view;
-        Log.e(TAG, "position = " + position);
-        if (convertView != null) {
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
-            Log.e(TAG, "here");
-        } else {
-            view = inflater.inflate(R.layout.linksetlist, null);
-            viewHolder = new ViewHolder();
-            Log.e(TAG, "there");
-        }
 
-        Log.e(TAG, "viewHolder = " + viewHolder);
+        view = saveView.get(position);
+        viewHolder = saveHolder.get(position);
 
         try {
             JSONObject jsonObject = new JSONObject(userLink.get(position));
@@ -89,7 +94,6 @@ public class LinksettingList extends BaseAdapter implements View.OnClickListener
                 textView3.setText("取消绑定");
             }
             textView3.setTextColor(Color.BLUE);
-            Log.e("123", "textView3 = " + textView3);
             viewHolder.textView = textView3;
             viewHolder.textView.setOnClickListener(this);
             viewHolder.textView.setTag(position);

@@ -114,7 +114,7 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
         if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             title.setText("Combine");
             back.setText("back");
-            text_company.setText("Sub Accoun");
+            text_company.setText("Sub Account");
             text_account.setText("User");
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 1){

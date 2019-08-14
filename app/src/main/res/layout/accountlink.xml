@@ -64,8 +64,10 @@
                 android:layout_weight="1.5"
                 android:paddingStart="10dp"
                 android:textSize="18sp"
+                android:textColor="#000000"
                 android:background="@drawable/linksetting_start_title"
-                android:text="公司" />
+                android:text="公司"
+                tools:ignore="RtlSymmetry" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -74,6 +76,7 @@
                 android:layout_weight="1"
                 android:paddingStart="10dp"
                 android:textSize="18sp"
+                android:textColor="#000000"
                 android:background="@drawable/linksetting_end_title"
                 android:text="戶口" />
 
@@ -88,6 +91,7 @@
                 android:id="@+id/listView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@null"
                 android:background="#FFFFFF" />
         </LinearLayout>
 

@@ -54,6 +54,7 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
             android:divider="@null"/>
     </LinearLayout>
 
@@ -165,7 +166,6 @@
         android:textAllCaps="false"
         android:background="@drawable/combine_style"
         android:textSize="18sp"
-
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
