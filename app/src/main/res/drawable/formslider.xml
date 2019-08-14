@@ -5,6 +5,11 @@
     <item>
         <shape>
             <solid android:color="#000000" />
+            <corners
+                android:topRightRadius="11dp"
+                android:topLeftRadius="11dp"
+                android:bottomLeftRadius="11dp"
+                android:bottomRightRadius="11dp"/>
         </shape>
     </item>
     <!-- 背景颜色值 -->
@@ -15,6 +20,11 @@
         android:bottom="2px">
         <shape>
             <solid android:color="#ffffff" />
+            <corners
+                android:topRightRadius="10dp"
+                android:topLeftRadius="10dp"
+                android:bottomLeftRadius="10dp"
+                android:bottomRightRadius="10dp"/>
         </shape>
     </item>
 </layer-list>

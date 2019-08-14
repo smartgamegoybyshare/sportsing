@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/linksetting_frame_title"
+            android:background="@drawable/linksetting_end_title"
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="18sp" />
@@ -162,7 +162,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:textColor="@color/colorWhite"
-        android:background="#004A98"
+        android:textAllCaps="false"
+        android:background="@drawable/combine_style"
         android:textSize="18sp"
 
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"

@@ -202,7 +202,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Date"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="SmallSp" />
         </LinearLayout>
 
@@ -223,7 +223,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Chart Code"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="SmallSp" />
         </LinearLayout>
 
@@ -244,7 +244,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Remarks"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="SmallSp" />
         </LinearLayout>
 
@@ -266,7 +266,7 @@
                 android:paddingEnd="2dp"
                 android:singleLine="true"
                 android:text="Gain"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="RtlSymmetry,SmallSp" />
         </LinearLayout>
 
@@ -288,15 +288,16 @@
                 android:paddingEnd="2dp"
                 android:singleLine="true"
                 android:text="Loss"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="RtlSymmetry,SmallSp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.05"
             android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_weight="1.05"
             android:background="@drawable/datalist_title"
             android:orientation="vertical">
 
@@ -309,9 +310,31 @@
                 android:paddingEnd="2dp"
                 android:singleLine="true"
                 android:text="Balance"
-                android:textSize="10sp"
+                android:textSize="8sp"
                 tools:ignore="RtlSymmetry,SmallSp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.15"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/datalist_title"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Checked"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="8sp"
+                tools:ignore="SmallSp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <!--<TextView-->
@@ -442,6 +465,7 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
             android:divider="@null" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

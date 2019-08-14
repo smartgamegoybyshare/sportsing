@@ -7,23 +7,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sport.sport3sing.R;
 import com.sport.sport3sing.Support.Value;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDataList extends BaseAdapter {
 
     private List<String> user_record;
-    private LayoutInflater inflater;
+    private List<View> saveView;
 
     @SuppressLint("InflateParams")
     public UserDataList(Context context, List<String> user_record) {
         this.user_record = user_record;
-        inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        saveView = new ArrayList<>();
+        saveView.clear();
+        for(int i = 0; i < user_record.size(); i++){
+            View view = inflater.inflate(R.layout.userdata, null);
+            saveView.add(view);
+        }
     }
 
     @Override
@@ -46,12 +54,7 @@ public class UserDataList extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
         View view;
-
-        if (convertView != null) {
-            view = convertView;
-        } else {
-            view = inflater.inflate(R.layout.userdata, null);
-        }
+        view = saveView.get(position);
 
         TextView date = view.findViewById(R.id.textView1);
         TextView chart_code = view.findViewById(R.id.textView2);
@@ -59,17 +62,21 @@ public class UserDataList extends BaseAdapter {
         TextView gain = view.findViewById(R.id.textView4);
         TextView lose = view.findViewById(R.id.textView5);
         TextView balance = view.findViewById(R.id.textView6);
+        CheckBox checkBox = view.findViewById(R.id.checkBox1);
         LinearLayout linearLayout1 = view.findViewById(R.id.linearLayout1);
         LinearLayout linearLayout2 = view.findViewById(R.id.linearLayout2);
         LinearLayout linearLayout3 = view.findViewById(R.id.linearLayout3);
         LinearLayout linearLayout4 = view.findViewById(R.id.linearLayout4);
         LinearLayout linearLayout5 = view.findViewById(R.id.linearLayout5);
         LinearLayout linearLayout6 = view.findViewById(R.id.linearLayout6);
+        LinearLayout linearLayout7 = view.findViewById(R.id.linearLayout7);
 
         if (position != user_record.size() - 1) {
             JSONObject jsonObject;
+            String check = "";
             try {
                 jsonObject = new JSONObject(user_record.get(position));
+                check = jsonObject.get("record_check").toString();
                 if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     date.setText(jsonObject.get("record_datetime_en").toString());
                     chart_code.setText(jsonObject.get("record_chartcode_en").toString());
@@ -100,24 +107,41 @@ public class UserDataList extends BaseAdapter {
                 } else {
                     balance.setTextColor(Color.BLUE);
                 }
+                if(check.matches("1")){
+                    checkBox.setChecked(true);
+                }else {
+                    checkBox.setChecked(false);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(position % 2 == 0) {
-                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame);
-                linearLayout2.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
-                linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+            if(check.matches("1")){
+                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                linearLayout2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                linearLayout3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                linearLayout4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                linearLayout5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                linearLayout6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                linearLayout7.setBackgroundResource(R.drawable.datalist_frame_gray);
             }else {
-                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
-                linearLayout2.setBackgroundResource(R.drawable.datalist_frame_blue);
-                linearLayout3.setBackgroundResource(R.drawable.datalist_frame_blue);
-                linearLayout4.setBackgroundResource(R.drawable.datalist_frame_blue);
-                linearLayout5.setBackgroundResource(R.drawable.datalist_frame_blue);
-                linearLayout6.setBackgroundResource(R.drawable.datalist_frame_blue);
+                if (position % 2 == 0) {
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame);
+                } else {
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_blue);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame_blue);
+                }
             }
         } else {
             JSONObject jsonObject;
@@ -133,6 +157,7 @@ public class UserDataList extends BaseAdapter {
                 String gain_value = jsonObject.get("surplus").toString();
                 String lose_value = jsonObject.get("loss").toString();
                 String balance_value = jsonObject.get("surplus_loss").toString();
+                checkBox.setBottom(R.color.colorWhite);
                 if (gain_value.contains("-")) {
                     gain.setText(gain_value);
                     gain.setTextColor(Color.RED);
@@ -158,21 +183,22 @@ public class UserDataList extends BaseAdapter {
                 date.setText("");
                 chart_code.setText("");
 
-                if(position % 2 == 0) {
+                //if(position % 2 == 0) {
                     linearLayout1.setBackgroundResource(R.drawable.liststyle_left);
                     linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom);
                     linearLayout3.setBackgroundResource(R.drawable.datalist_frame);
                     linearLayout4.setBackgroundResource(R.drawable.datalist_frame);
                     linearLayout5.setBackgroundResource(R.drawable.datalist_frame);
-                    linearLayout6.setBackgroundResource(R.drawable.liststyle_right);
-                }else {
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame);
+                    linearLayout7.setBackgroundResource(R.drawable.liststyle_right);
+                /*}else {
                     linearLayout1.setBackgroundResource(R.drawable.liststyle_left_blue);
                     linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_blue);
                     linearLayout3.setBackgroundResource(R.drawable.datalist_frame_blue);
                     linearLayout4.setBackgroundResource(R.drawable.datalist_frame_blue);
                     linearLayout5.setBackgroundResource(R.drawable.datalist_frame_blue);
                     linearLayout6.setBackgroundResource(R.drawable.liststyle_right_blue);
-                }
+                }*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }

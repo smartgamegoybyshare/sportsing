@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         gifImageView1 = findViewById(R.id.imageView4); //廣告圖
 
         Runnable gettitle = () -> {
-            String imageUri = "https://dl.kz168168.com/img/logo02.png";
+            String imageUri = "https://dl.kz168168.com/img/android-logo01.png";
             bitmap_title = fetchImage(imageUri);
             titleHandler.post(() -> {
                 imageViewtitle.setImageBitmap(bitmap_title);
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             double gif_height = dm.widthPixels / 6.25;
             gif_linear.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (int) gif_height));
             Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/ad08.png";
+                String imageUri = "https://dl.kz168168.com/img/android-ad01.png";
                 preview_bitmap = fetchImage(imageUri);
                 adHandler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);

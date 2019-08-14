@@ -109,7 +109,7 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
         gifImageView1 = findViewById(R.id.imageView1);
 
         Runnable getimage = () -> {
-            String imageUri = "https://dl.kz168168.com/img/ad14.png";
+            String imageUri = "https://dl.kz168168.com/img/android-ad07.png";
             preview_bitmap = fetchImage(imageUri);
             handler.post(() -> {
                 gifImageView1.setImageBitmap(preview_bitmap);

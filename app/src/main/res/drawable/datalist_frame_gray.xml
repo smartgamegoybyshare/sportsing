@@ -5,20 +5,14 @@
     <item>
         <shape>
             <solid android:color="#000000" />
-            <corners
-                android:topLeftRadius="11dp" />
         </shape>
     </item>
     <!-- 背景颜色值 -->
     <item
-        android:left="2px"
         android:right="2px"
-        android:top="2px"
         android:bottom="2px">
         <shape>
-            <solid android:color="@color/color_popupmenu_background" />
-            <corners
-                android:topLeftRadius="10dp" />
+            <solid android:color="#DDDDDD" />
         </shape>
     </item>
 </layer-list>

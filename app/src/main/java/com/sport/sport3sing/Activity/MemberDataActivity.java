@@ -88,7 +88,7 @@ public class MemberDataActivity extends AppCompatActivity {
             gifImageView1 = findViewById(R.id.imageView1);
 
             Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/ad13.png";
+                String imageUri = "https://dl.kz168168.com/img/android-ad06.png";
                 preview_bitmap = fetchImage(imageUri);
                 handler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);

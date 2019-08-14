@@ -30,7 +30,7 @@ public class PageTwoView extends PageView {
         View view = LayoutInflater.from(context).inflate(R.layout.pageone, null);
         imageView = view.findViewById(R.id.imageView);
         Runnable getimage = () -> {
-            String imageUri = "https://dl.kz168168.com/img/slider06.png";
+            String imageUri = "https://dl.kz168168.com/img/android-slider02.png";
             preview_bitmap = fetchImage(imageUri);
             handler.post(() -> imageView.setImageBitmap(preview_bitmap));
         };

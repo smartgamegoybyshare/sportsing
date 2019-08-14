@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.sport.sport3sing.ListView.AccountLinkList;
+import com.sport.sport3sing.ListView.buttonItem.ButtonItemOnclickListener;
+import com.sport.sport3sing.ListView.buttonItem.GetButtonItem;
 import com.sport.sport3sing.Post_Get.GetCheckLink.CheckLink;
 import com.sport.sport3sing.Post_Get.GetCheckLink.CheckLinkListener;
 import com.sport.sport3sing.Post_Get.GetCheckLink.GetCheckLink;
@@ -36,7 +39,8 @@ import java.util.List;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
-public class AccountLinkActivity extends AppCompatActivity implements CheckLinkListener {
+public class AccountLinkActivity extends AppCompatActivity implements CheckLinkListener,
+        ButtonItemOnclickListener {
 
     private String TAG = "AccountLinkActivity";
     private String company, account;
@@ -47,6 +51,7 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
     private Loading loading = new Loading(this);
     private CheckLink checkLink = new CheckLink(this);
     private GetCheckLink getCheckLink = new GetCheckLink();
+    private GetButtonItem getButtonItem = new GetButtonItem();
     private JSONArray jsonArray;
 
     @Override
@@ -80,12 +85,14 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
     private void showview() {
         TextView title = findViewById(R.id.textView);
         TextView back = findViewById(R.id.textView1);
+        TextView text_company = findViewById(R.id.textView2);
+        TextView text_account = findViewById(R.id.textView3);
         TextView copyright = findViewById(R.id.copyright);
         TextView nowTime = findViewById(R.id.nowTime);
         listView = findViewById(R.id.listView1);
         gifImageView1 = findViewById(R.id.imageView1);
         Runnable getimage = () -> {
-            String imageUri = "https://dl.kz168168.com/img/ad11.png";
+            String imageUri = "https://dl.kz168168.com/img/android-ad04.png";
             preview_bitmap = fetchImage(imageUri);
             handler.post(() -> {
                 gifImageView1.setImageBitmap(preview_bitmap);
@@ -107,34 +114,28 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
         if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             title.setText("Combine");
             back.setText("back");
+            text_company.setText("Sub Accoun");
+            text_account.setText("User");
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 1){
             title.setText("轉換戶口");
             back.setText("返回");
+            text_company.setText("子帳號");
+            text_account.setText("戶口");
             nowTime.setText(Value.updatestring + Value.updateTime);
         }else if(Value.language_flag == 2){
             title.setText("转换户口");
             back.setText("返回");
+            text_company.setText("子帐号");
+            text_account.setText("户口");
             nowTime.setText(Value.updatestring + Value.updateTime);
         }
 
         back.setOnClickListener(view ->  backform());
 
+        getButtonItem.setButtonItemOnclickListener(this);
         getCheckLink.setListener(this);
         checkLink.setConnect(company, account, getCheckLink);
-    }
-
-    private AdapterView.OnItemClickListener itemOnClick = (parent, view, position, id) -> getRecord(position);
-
-    private void getRecord(int position) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonArray.get(position).toString());
-            company = jsonObject.get("link_from_code").toString();
-            account = jsonObject.get("link_from_user").toString();
-            backform();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
@@ -227,9 +228,9 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
                 for(int i = 0; i < jsonArray.length(); i++){
                     user_link.add(jsonArray.get(i).toString());
                 }
-                AccountLinkList accountLinkList = new AccountLinkList(this, user_link);
+                AccountLinkList accountLinkList = new AccountLinkList(this, user_link,
+                        getButtonItem, company, account);
                 listView.setAdapter(accountLinkList);
-                listView.setOnItemClickListener(itemOnClick);
                 loading.dismiss();
             } else if (result.matches("error1")) {
                 loading.dismiss();
@@ -250,5 +251,12 @@ public class AccountLinkActivity extends AppCompatActivity implements CheckLinkL
         }catch (JSONException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void itemOnClick(View v, String nowcompany, String nowaccount) {
+        company = nowcompany;
+        account = nowaccount;
+        backform();
     }
 }

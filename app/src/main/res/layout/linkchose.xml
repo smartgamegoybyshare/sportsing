@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.AccountLinkActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:orientation="horizontal"
-        android:background="@color/colorWhite"
+        android:background="#DDDDDD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,63 +23,52 @@
 
 
         <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingStart="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="2.5"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:textSize="16sp"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="14sp"
                 android:singleLine="false"
                 tools:ignore="NestedWeights" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:textSize="16sp"
-                android:singleLine="false" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
             android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             tools:ignore="RtlSymmetry">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="2.5"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:textSize="16sp"
-                android:singleLine="false"
-                tools:ignore="NestedWeights" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:textSize="16sp"
-                android:singleLine="false" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:text="Button" />
+
         </LinearLayout>
 
     </LinearLayout>

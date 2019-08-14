@@ -30,7 +30,7 @@ public class PageFourView extends PageView {
         View view = LayoutInflater.from(context).inflate(R.layout.pageone, null);
         imageView = view.findViewById(R.id.imageView);
         Runnable getimage = () -> {
-            String imageUri = "https://dl.kz168168.com/img/slider08.png";
+            String imageUri = "https://dl.kz168168.com/img/android-slider04.png";
             preview_bitmap = fetchImage(imageUri);
             handler.post(() -> imageView.setImageBitmap(preview_bitmap));
         };

@@ -86,11 +86,11 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private LinearLayout lineaBackground1, lineaBackground2, lineaBackground3, lineaBackground4,
-            lineaBackground5, lineaBackground6;
+            lineaBackground5, lineaBackground6, lineaBackground7;
     private int select_item = -1;
     private Bitmap preview_bitmap;
     private GifImageView gifImageView1;
-    private TextView toolbartitle, nowtime, date, chartcode, remark, gain, loss, balance;
+    private TextView toolbartitle, nowtime, date, chartcode, remark, gain, loss, balance, checked;
     private Button accountLink, checkform, refresh;
     private Handler handler = new Handler(), buttonHandler = new Handler(), swipeHandler = new Handler();
     private PopupWindow popWindow;
@@ -113,6 +113,8 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         gain = findViewById(R.id.textView6);
         loss = findViewById(R.id.textView7);
         balance = findViewById(R.id.textView8);
+        checked = findViewById(R.id.textView9);
+
         refresh = findViewById(R.id.button5);
         if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             loading.show("Getting data");
@@ -150,7 +152,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             TextView username = findViewById(R.id.textView1);
             gifImageView1 = findViewById(R.id.imageView1);
             Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/ad10.png";
+                String imageUri = "https://dl.kz168168.com/img/android-ad03.png";
                 preview_bitmap = fetchImage(imageUri);
                 handler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);
@@ -419,119 +421,158 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         //設置點選view的背景顏色(Yellow)
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            LinearLayout linearLayout1 = view.findViewById(R.id.linearLayout1);
-            LinearLayout linearLayout2 = view.findViewById(R.id.linearLayout2);
-            LinearLayout linearLayout3 = view.findViewById(R.id.linearLayout3);
-            LinearLayout linearLayout4 = view.findViewById(R.id.linearLayout4);
-            LinearLayout linearLayout5 = view.findViewById(R.id.linearLayout5);
-            LinearLayout linearLayout6 = view.findViewById(R.id.linearLayout6);
-            if ((select_item == -1) || (select_item == position)) {
-                //view.setBackgroundResource(R.color.colorListviewChose); //為View加上選取效果
-                if (position != Value.user_record.size() - 1) {
-                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
-                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                } else {
-                    linearLayout1.setBackgroundResource(R.drawable.liststyle_left_yellow);
-                    linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_yellow);
-                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout6.setBackgroundResource(R.drawable.liststyle_right_yellow);
-                }
-            } else {
-                if (position != Value.user_record.size() - 1) {
-                    if (select_item != Value.user_record.size() - 1) {
-                        if(select_item % 2 == 0) {
-                            lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
-                        }else {
-                            lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_blue);
-                        }
+            try {
+                LinearLayout linearLayout1 = view.findViewById(R.id.linearLayout1);
+                LinearLayout linearLayout2 = view.findViewById(R.id.linearLayout2);
+                LinearLayout linearLayout3 = view.findViewById(R.id.linearLayout3);
+                LinearLayout linearLayout4 = view.findViewById(R.id.linearLayout4);
+                LinearLayout linearLayout5 = view.findViewById(R.id.linearLayout5);
+                LinearLayout linearLayout6 = view.findViewById(R.id.linearLayout6);
+                LinearLayout linearLayout7 = view.findViewById(R.id.linearLayout7);
+
+                if ((select_item == -1) || (select_item == position)) {
+                    if (position != Value.user_record.size() - 1) {
+                        linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
+                        linearLayout2.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout7.setBackgroundResource(R.drawable.datalist_frame_yellow);
                     } else {
-                        if (select_item % 2 == 0) {
-                            lineaBackground1.setBackgroundResource(R.drawable.liststyle_left);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground6.setBackgroundResource(R.drawable.liststyle_right);
+                        linearLayout1.setBackgroundResource(R.drawable.liststyle_left_yellow);
+                        linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_yellow);
+                        linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout7.setBackgroundResource(R.drawable.liststyle_right_yellow);
+                    }
+                } else {
+                    String selectrecord = Value.user_record.get(select_item);
+                    Log.e(TAG, "selectrecord = " + Value.user_record.get(position));
+                    JSONObject jsonObject = new JSONObject(selectrecord);
+                    if (position != Value.user_record.size() - 1) {
+                        if (select_item != Value.user_record.size() - 1) {
+                            if(jsonObject.get("record_check").toString().matches("1")){
+                                lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                                lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                            }else {
+                                if (select_item % 2 == 0) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame);
+                                } else {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                }
+                            }
                         } else {
-                            lineaBackground1.setBackgroundResource(R.drawable.liststyle_left_blue);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom_blue);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground6.setBackgroundResource(R.drawable.liststyle_right_blue);
-                        }
-                    }
-                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
-                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                } else {
-                    if (select_item != Value.user_record.size() - 1) {
-                        if(select_item % 2 == 0) {
-                            lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
-                        }else {
-                            lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
-                            lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
-                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_blue);
-                        }
-                    } else {
-                        if(select_item % 2 == 0) {
+                            //if (select_item % 2 == 0) {
                             lineaBackground1.setBackgroundResource(R.drawable.liststyle_left);
                             lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom);
                             lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
                             lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
                             lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
-                            lineaBackground6.setBackgroundResource(R.drawable.liststyle_right);
-                        }else {
+                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
+                            lineaBackground7.setBackgroundResource(R.drawable.liststyle_right);
+                        /*} else {
                             lineaBackground1.setBackgroundResource(R.drawable.liststyle_left_blue);
                             lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom_blue);
                             lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
                             lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
                             lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
                             lineaBackground6.setBackgroundResource(R.drawable.liststyle_right_blue);
+                        }*/
                         }
+                        linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
+                        linearLayout2.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout7.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    } else {
+                        if (select_item != Value.user_record.size() - 1) {
+                            if(jsonObject.get("record_check").toString().matches("1")){
+                                lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                                lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                            }else {
+                                if (select_item % 2 == 0) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame);
+                                } else {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_blue);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_blue);
+                                }
+                            }
+                        } else {
+                            //if(select_item % 2 == 0) {
+                            lineaBackground1.setBackgroundResource(R.drawable.liststyle_left);
+                            lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom);
+                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame);
+                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame);
+                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame);
+                            lineaBackground6.setBackgroundResource(R.drawable.datalist_frame);
+                            lineaBackground7.setBackgroundResource(R.drawable.liststyle_right);
+                        /*}else {
+                            lineaBackground1.setBackgroundResource(R.drawable.liststyle_left_blue);
+                            lineaBackground2.setBackgroundResource(R.drawable.datalist_total_buttom_blue);
+                            lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_blue);
+                            lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_blue);
+                            lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_blue);
+                            lineaBackground6.setBackgroundResource(R.drawable.liststyle_right_blue);
+                        }*/
+                        }
+                        linearLayout1.setBackgroundResource(R.drawable.liststyle_left_yellow);
+                        linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_yellow);
+                        linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                        linearLayout7.setBackgroundResource(R.drawable.liststyle_right_yellow);
                     }
-                    linearLayout1.setBackgroundResource(R.drawable.liststyle_left_yellow);
-                    linearLayout2.setBackgroundResource(R.drawable.datalist_total_buttom_yellow);
-                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
-                    linearLayout6.setBackgroundResource(R.drawable.liststyle_right_yellow);
                 }
+                lineaBackground1 = linearLayout1;
+                lineaBackground2 = linearLayout2;
+                lineaBackground3 = linearLayout3;
+                lineaBackground4 = linearLayout4;
+                lineaBackground5 = linearLayout5;
+                lineaBackground6 = linearLayout6;
+                lineaBackground7 = linearLayout7;
+                select_item = position;//保存目前的View位置
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            lineaBackground1 = linearLayout1;
-            lineaBackground2 = linearLayout2;
-            lineaBackground3 = linearLayout3;
-            lineaBackground4 = linearLayout4;
-            lineaBackground5 = linearLayout5;
-            lineaBackground6 = linearLayout6;
-            select_item = position;//保存目前的View位置
         }
     };
 
@@ -963,6 +1004,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 gain.setText("Gain");
                 loss.setText("Loss");
                 balance.setText("Balance");
+                checked.setText("Checked");
                 accountLink.setText("Change Account");
                 refresh.setText("Refresh");
                 if (Value.get_record.get("all_checked").toString().matches("n")) {
@@ -978,6 +1020,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 gain.setText("盈");
                 loss.setText("虧");
                 balance.setText("餘額");
+                checked.setText("對帳");
                 accountLink.setText("轉換戶口");
                 refresh.setText("更新");
                 if (Value.get_record.get("all_checked").toString().matches("n")) {
@@ -993,6 +1036,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                 gain.setText("盈");
                 loss.setText("亏");
                 balance.setText("馀额");
+                checked.setText("对帐");
                 accountLink.setText("转换户口");
                 refresh.setText("更新");
                 if (Value.get_record.get("all_checked").toString().matches("n")) {
