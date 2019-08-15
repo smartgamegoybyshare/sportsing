@@ -131,7 +131,7 @@
             android:background="@drawable/linksetting_start_title"
             android:gravity="center"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView6"
@@ -142,7 +142,7 @@
             android:background="@drawable/linksetting_frame_title"
             android:gravity="center"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView7"
@@ -153,7 +153,7 @@
             android:background="@drawable/linksetting_end_title"
             android:gravity="center"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <Button

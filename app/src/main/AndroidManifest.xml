@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.sport.sport3sing">
+    package="com.sport.nuba">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +16,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
         <activity
-            android:name=".Activity.MainActivity"
+            android:name="com.sport.nuba.Activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
@@ -28,42 +28,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.FormActivity"
+            android:name="com.sport.nuba.Activity.FormActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name=".Activity.AccountLinkActivity"
+            android:name="com.sport.nuba.Activity.AccountLinkActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name=".Activity.MemberDataActivity"
+            android:name="com.sport.nuba.Activity.MemberDataActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name=".Activity.LinksettingActivity"
+            android:name="com.sport.nuba.Activity.LinksettingActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name=".Activity.ModifyPasswordActivity"
+            android:name="com.sport.nuba.Activity.ModifyPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden"
             tools:ignore="InnerclassSeparator">
         </activity>
         <activity
-            android:name=".Activity.HowtoActivity"
+            android:name="com.sport.nuba.Activity.HowtoActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"

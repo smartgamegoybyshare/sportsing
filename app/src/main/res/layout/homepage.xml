@@ -19,7 +19,7 @@
 
     </LinearLayout>
 
-    <com.sport.sport3sing.PageView.ViewPagerIndicator
+    <com.sport.nuba.PageView.ViewPagerIndicator
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logol_linear"
         app:layout_constraintVertical_bias="0.0">
 
-        <com.sport.sport3sing.Support.MarqueeTextView
+        <com.sport.nuba.Support.MarqueeTextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
