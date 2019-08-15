@@ -311,7 +311,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
             new AlertDialog.Builder(FormActivity.this)
                     .setTitle("努霸財富管家")
-                    .setIcon(R.drawable.app_icon_mini2)
+                    .setIcon(R.drawable.app_icon_mini)
                     .setMessage("Do you want to Logout?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);
@@ -326,7 +326,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         } else if (Value.language_flag == 1) {
             new AlertDialog.Builder(FormActivity.this)
                     .setTitle("努霸財富管家")
-                    .setIcon(R.drawable.app_icon_mini2)
+                    .setIcon(R.drawable.app_icon_mini)
                     .setMessage("確定要登出?")
                     .setPositiveButton("確定", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);
@@ -341,7 +341,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
         } else if (Value.language_flag == 2) {
             new AlertDialog.Builder(FormActivity.this)
                     .setTitle("努霸财富管家")
-                    .setIcon(R.drawable.app_icon_mini2)
+                    .setIcon(R.drawable.app_icon_mini)
                     .setMessage("确定要登出?")
                     .setPositiveButton("确定", (dialog, which) -> {
                         Intent intent = new Intent(this, MainActivity.class);

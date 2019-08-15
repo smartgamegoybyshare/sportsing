@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                                     new AlertDialog.Builder(this)
                                             .setTitle("努霸財富管家")
-                                            .setIcon(R.drawable.app_icon_mini2)
+                                            .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("This app have a new version.\nDo you want to update?")
                                             .setPositiveButton("Yes", (dialog, which) -> {
                                                 getNewVersion();
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                 } else if (Value.language_flag == 1) {
                                     new AlertDialog.Builder(this)
                                             .setTitle("努霸財富管家")
-                                            .setIcon(R.drawable.app_icon_mini2)
+                                            .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("偵測到有新版本\n現在要更新嗎?")
                                             .setPositiveButton("確定", (dialog, which) -> {
                                                 getNewVersion();
@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                 } else if (Value.language_flag == 2) {
                                     new AlertDialog.Builder(this)
                                             .setTitle("努霸财富管家")
-                                            .setIcon(R.drawable.app_icon_mini2)
+                                            .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("侦测到有新版本\n现在要更新吗?")
                                             .setPositiveButton("确定", (dialog, which) -> {
                                                 getNewVersion();
@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     new AlertDialog.Builder(this)
                             .setTitle("努霸財富管家")
-                            .setIcon(R.drawable.app_icon_mini2)
+                            .setIcon(R.drawable.app_icon_mini)
                             .setMessage("Do you want to exit?")
                             .setPositiveButton("Yes", (dialog, which) -> finish())
                             .setNegativeButton("No", (dialog, which) -> {
@@ -529,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 } else if (Value.language_flag == 1) {
                     new AlertDialog.Builder(this)
                             .setTitle("努霸財富管家")
-                            .setIcon(R.drawable.app_icon_mini2)
+                            .setIcon(R.drawable.app_icon_mini)
                             .setMessage("確定要離開?")
                             .setPositiveButton("離開", (dialog, which) -> finish())
                             .setNegativeButton("取消", (dialog, which) -> {
@@ -538,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 } else if (Value.language_flag == 2) {
                     new AlertDialog.Builder(this)
                             .setTitle("努霸财富管家")
-                            .setIcon(R.drawable.app_icon_mini2)
+                            .setIcon(R.drawable.app_icon_mini)
                             .setMessage("确定要离开?")
                             .setPositiveButton("离开", (dialog, which) -> finish())
                             .setNegativeButton("取消", (dialog, which) -> {
