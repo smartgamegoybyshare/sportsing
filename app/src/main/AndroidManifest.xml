@@ -28,6 +28,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.sport.nuba.Activity.LoginMainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <activity
             android:name="com.sport.nuba.Activity.FormActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
@@ -64,6 +71,13 @@
         </activity>
         <activity
             android:name="com.sport.nuba.Activity.HowtoActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <activity
+            android:name="com.sport.nuba.Activity.Howto2Activity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"

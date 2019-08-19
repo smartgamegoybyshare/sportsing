@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.sport.nuba.Language.LanguageChose;
 import com.sport.nuba.Language.LanguageListener;
@@ -49,8 +51,10 @@ import com.sport.nuba.Support.Loading;
 import com.sport.nuba.Support.MarqueeTextView;
 import com.sport.nuba.Support.Screen;
 import com.sport.nuba.Support.Value;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
+
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -73,32 +78,25 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private List<PageView> pageList;
     private ViewPagerIndicator viewPagerIndicator;
     private DisplayMetrics dm;
-    private MarqueeTextView announcement;
-    private String announce_text = "[服務暫停通知]因系統維護，7/08(一)00:00AM ~ 12:00PM，暫停服務，" +
-            "造成不便敬請見諒                                                                    ";
-    private String news1 = "[服務暫停通知]因系統維護，7/08(一)00:00AM ~ 12:00PM，暫停服務，" +
-            "造成不便敬請見諒";
-    private String news2 = "[系統狀態通知]目前已開放客戶看帳";
-    private List<String> news_api;
-    private String company, account, password;
+    private String company, account, password, imformation;
     private Loading loading = new Loading(this);
     private Connected connected = new Connected(this);
     private GetConnect getConnect = new GetConnect();
     private LoginSQL loginSQL = new LoginSQL(this);
     private LanguageSQL languageSQL = new LanguageSQL(this);
-    private NewsList newsList;
+    private MarqueeTextView announcement;
     private EditText editText1, editText2, editText3;
     private CheckBox checkBox;
     private Button login;
     private ListView listView;
-    private List<String> dataList;
     private GifImageView gifImageView1;
     private Bitmap bitmap_title, preview_bitmap;
     private ImageView imageViewtitle;
     private Handler viewpageHandler = new Handler();
     private LanguageChose languageChose = new LanguageChose(this);
     private SetLanguage setLanguage = new SetLanguage();
-    private Handler checkHandler = new Handler(), titleHandler = new Handler(), adHandler = new Handler();
+    private Handler checkHandler = new Handler(), titleHandler = new Handler(),
+            adHandler = new Handler(), announceHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         viewPager = findViewById(R.id.pager);   //slider廣告介面
         viewPagerIndicator = findViewById(R.id.indicator);  //slider下的點點
         BottomSheetBehavior behavior = BottomSheetBehavior.from(findViewById(R.id.scroll)); //上拉view
+        new Thread(announce).start();
         setLanguage.isSet();
 
         object.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (4 * dm.heightPixels) / 10));
@@ -187,16 +186,15 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             String thisversion = getVersionName(MainActivity.this);
             Log.e(TAG, "thisversion = " + thisversion);
             Value.ver = thisversion;
-
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         listView();
 
-        announcement.setText(announce_text);
+        String announce_text = "";
         announcement.setOnClickListener(view -> showhowto());
 
-        dataList = new ArrayList<>();
+        List<String> dataList = new ArrayList<>();
         dataList.clear();
         dataList = loginSQL.getlist();
         if (dataList.size() != 0) {
@@ -382,12 +380,61 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         }
     }
 
-    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+    private Runnable announce = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL("https://dl.kz168168.com/apk/nuba_default_marquee.json");
+                HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
+                urlCon.setConnectTimeout(2000);
+                InputStream uin = urlCon.getInputStream();
+                BufferedReader in = new BufferedReader(new InputStreamReader(uin));
+                boolean more = true;
+                String line;
+                for (; more; ) {
+                    line = in.readLine();
+                    if (line != null) {
+                        if (line.contains("text")) {
+                            line = "{" + line + "}";
+                            JSONObject jsonObject = new JSONObject(line);
+                            imformation = jsonObject.getString("text");
+                            Log.e(TAG, "imformation.lenth = " + imformation.length());
+                            if (imformation.length() < 80) {
+                                StringBuilder imformationBuilder = new StringBuilder(imformation);
+                                for (int j = imformationBuilder.length(); j < 80; j++) {
+                                    imformationBuilder.append("  ");
+                                }
+                                imformation = imformationBuilder.toString();
+                            }
+                            announceHandler.post(() -> {
+                                announcement.setText(imformation);
+                                checkHandler.removeCallbacksAndMessages(null);
+                            });
+                        }
+                    } else more = false;
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private void showhowto() {
+        Intent intent = new Intent(this, HowtoActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private Bitmap fetchImage(String urlstr) {  //連接網頁獲取的圖片
         try {
             URL url;
             url = new URL(urlstr);
-            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
-            c.setDoInput( true );
+            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+            c.setDoInput(true);
             c.connect();
             InputStream is = c.getInputStream();
             Bitmap img;
@@ -414,15 +461,9 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     }
 
     private void nextPage() {
-        Intent intent = new Intent(this, FormActivity.class);
+        Intent intent = new Intent(this, LoginMainActivity.class);
         intent.putExtra("company", company);
         intent.putExtra("account", account);
-        startActivity(intent);
-        finish();
-    }
-
-    private void showhowto() {
-        Intent intent = new Intent(this, HowtoActivity.class);
         startActivity(intent);
         finish();
     }
@@ -503,12 +544,10 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     }
 
     private void setlistViewAdapter() {
-        news_api = new ArrayList<>();
+        List<String> news_api = new ArrayList<>();
         news_api.clear();
         news_api.add("");
-        news_api.add(news1);
-        news_api.add(news2);
-        newsList = new NewsList(this, news_api);
+        NewsList newsList = new NewsList(this, news_api);
         listView.setAdapter(newsList);
     }
 
@@ -611,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 } else {
                     loginSQL.deleteAll();
                 }
+                Value.login_in = true;
                 nextPage();
             } else if (result.matches("error1")) {
                 loading.dismiss();

@@ -1,5 +1,6 @@
 package com.sport.nuba.ListView.Home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,7 @@ public class NewsList extends BaseAdapter {
         return false;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
@@ -82,7 +84,7 @@ public class NewsList extends BaseAdapter {
             }else if(Value.language_flag == 1){
                 newsText.setText("最新訊息");
             }else if(Value.language_flag == 2){
-                newsText.setText("最新讯息");
+                newsText.setText("最新信息");
             }
         }
         else {

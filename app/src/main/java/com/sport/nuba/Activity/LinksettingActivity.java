@@ -18,7 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.sport.nuba.ListView.InnerItem.GetInnerItem;
 import com.sport.nuba.ListView.InnerItem.InnerItemOnclickListener;
 import com.sport.nuba.ListView.LinksettingList;
@@ -34,9 +37,11 @@ import com.sport.nuba.Post_Get.LinkForm.LinkFormListener;
 import com.sport.nuba.R;
 import com.sport.nuba.Support.Loading;
 import com.sport.nuba.Support.Value;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -245,12 +250,12 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
         link.setConnect(company, account, getLink);
     }
 
-    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
+    private Bitmap fetchImage(String urlstr) {  //連接網頁獲取的圖片
         try {
             URL url;
             url = new URL(urlstr);
-            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
-            c.setDoInput( true );
+            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+            c.setDoInput(true);
             c.connect();
             InputStream is = c.getInputStream();
             Bitmap img;
@@ -272,6 +277,31 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
         intent.putExtra("account", account);
         startActivity(intent);
         finish();
+    }
+
+    private void cancelLink(View v) {
+        try {
+            int position;
+            position = (Integer) v.getTag();
+            if (v.getId() == R.id.textView3) {
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    loading.show("Getting data");
+                } else if (Value.language_flag == 1) {
+                    loading.show("取得資料中");
+                } else if (Value.language_flag == 2) {
+                    loading.show("获取资料中");
+                }
+                String getItem = jsonArray.get(position).toString();
+                JSONObject jsonObject = new JSONObject(getItem);
+                Log.e("TAG", "getItem = " + getItem);
+                String company_chose = jsonObject.get("link_from_code").toString();
+                String account_chose = jsonObject.get("link_from_user").toString();
+                String linkid = jsonObject.get("link_id").toString();
+                cancelLink.setConnect(company_chose, account_chose, linkid, getCancelLink);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean onKeyDown(int key, KeyEvent event) {
@@ -368,27 +398,33 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
 
     @Override
     public void itemOnClick(View v) {
-        try {
-            int position;
-            position = (Integer) v.getTag();
-            if (v.getId() == R.id.textView3) {
-                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    loading.show("Getting data");
-                } else if (Value.language_flag == 1) {
-                    loading.show("取得資料中");
-                } else if (Value.language_flag == 2) {
-                    loading.show("获取资料中");
-                }
-                String getItem = jsonArray.get(position).toString();
-                JSONObject jsonObject = new JSONObject(getItem);
-                Log.e("TAG", "getItem = " + getItem);
-                String company_chose = jsonObject.get("link_from_code").toString();
-                String account_chose = jsonObject.get("link_from_user").toString();
-                String linkid = jsonObject.get("link_id").toString();
-                cancelLink.setConnect(company_chose, account_chose, linkid, getCancelLink);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+            new AlertDialog.Builder(this)
+                    .setTitle("努霸財富管家")
+                    .setIcon(R.drawable.app_icon_mini)
+                    .setMessage("Are you sure to cancel?")
+                    .setPositiveButton("Yes", (dialog, which) -> cancelLink(v))
+                    .setNegativeButton("No", (dialog, which) -> {
+                        // TODO Auto-generated method stub
+                    }).show();
+        } else if (Value.language_flag == 1) {
+            new AlertDialog.Builder(this)
+                    .setTitle("努霸財富管家")
+                    .setIcon(R.drawable.app_icon_mini)
+                    .setMessage("確定要取消嗎?")
+                    .setPositiveButton("確定", (dialog, which) -> cancelLink(v))
+                    .setNegativeButton("取消", (dialog, which) -> {
+                        // TODO Auto-generated method stub
+                    }).show();
+        } else if (Value.language_flag == 2) {
+            new AlertDialog.Builder(this)
+                    .setTitle("努霸财富管家")
+                    .setIcon(R.drawable.app_icon_mini)
+                    .setMessage("确定要取消吗?")
+                    .setPositiveButton("确定", (dialog, which) -> cancelLink(v))
+                    .setNegativeButton("取消", (dialog, which) -> {
+                        // TODO Auto-generated method stub
+                    }).show();
         }
     }
 

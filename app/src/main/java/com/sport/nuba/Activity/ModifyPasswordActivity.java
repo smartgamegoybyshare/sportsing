@@ -103,6 +103,9 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView2.setText("Old Password");
             textView3.setText("New Password");
             textView4.setText("Confirm New Password");
+            editText1.setHint("Old Password");
+            editText2.setHint("At least 6 characters long");
+            editText3.setHint("Confirm new Password");
             button.setText("Comfirm");
             copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
@@ -110,8 +113,11 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView.setText("修改密碼");
             textView1.setText("返回");
             textView2.setText("舊密碼");
-            textView3.setText("新密碼(至少含6字元長度)");
+            textView3.setText("新密碼");
             textView4.setText("確認新密碼");
+            editText1.setHint("舊密碼");
+            editText2.setHint("至少含6字元長度");
+            editText3.setHint("確認新密碼");
             button.setText("確認");
             copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);
@@ -119,8 +125,11 @@ public class ModifyPasswordActivity extends AppCompatActivity implements ChangeP
             textView.setText("修改密码");
             textView1.setText("返回");
             textView2.setText("旧密码");
-            textView3.setText("新密码(最少6位)");
+            textView3.setText("新密码");
             textView4.setText("确认新密码");
+            editText1.setHint("旧密码");
+            editText2.setHint("最少6位");
+            editText3.setHint("确认新密码");
             button.setText("确认");
             copyright.setText(Value.copyright_text + Value.ver);
             nowTime.setText(Value.updatestring + Value.updateTime);

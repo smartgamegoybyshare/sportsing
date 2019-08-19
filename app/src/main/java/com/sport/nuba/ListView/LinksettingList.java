@@ -88,11 +88,11 @@ public class LinksettingList extends BaseAdapter implements View.OnClickListener
             if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                 textView3.setText("Cancel");
             }else if(Value.language_flag == 1){
-                textView3.setText("取消綁定");
+                textView3.setText("取消");
             }else if(Value.language_flag == 2){
-                textView3.setText("取消绑定");
+                textView3.setText("取消");
             }
-            textView3.setTextColor(Color.BLUE);
+            textView3.setTextColor(Color.RED);
             viewHolder.textView = textView3;
             viewHolder.textView.setOnClickListener(this);
             viewHolder.textView.setTag(position);
