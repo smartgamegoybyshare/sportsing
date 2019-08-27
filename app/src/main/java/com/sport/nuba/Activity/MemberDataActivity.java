@@ -65,7 +65,6 @@ public class MemberDataActivity extends AppCompatActivity {
         try {
             TextView title = findViewById(R.id.textView);   //會員資料
             TextView back = findViewById(R.id.textView1);   //返回
-            TextView memberAccount = findViewById(R.id.textView2);  //客戶帳號
             TextView textView1 = findViewById(R.id.textView3);  //客戶帳號內容
             TextView membername = findViewById(R.id.textView4); //姓名欄
             TextView textView2 = findViewById(R.id.textView5);  //姓名
@@ -108,7 +107,6 @@ public class MemberDataActivity extends AppCompatActivity {
             if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                 title.setText("Account");
                 back.setText("back");
-                memberAccount.setText("User");
                 membername.setText("Name");
                 guarantor.setText("Guarantor");
                 currency.setText("Currency");
@@ -120,9 +118,8 @@ public class MemberDataActivity extends AppCompatActivity {
                 copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }else if(Value.language_flag == 1){
-                title.setText("戶口資料");
+                title.setText("戶口帳號");
                 back.setText("返回");
-                memberAccount.setText("戶口帳號");
                 membername.setText("姓名");
                 guarantor.setText("擔保人");
                 currency.setText("貨幣");
@@ -134,9 +131,8 @@ public class MemberDataActivity extends AppCompatActivity {
                 copyright.setText(Value.copyright_text + Value.ver);
                 nowTime.setText(Value.updatestring + Value.updateTime);
             }else if(Value.language_flag == 2){
-                title.setText("户口资料");
+                title.setText("户口帐号");
                 back.setText("返回");
-                memberAccount.setText("户口帐号");
                 membername.setText("姓名");
                 guarantor.setText("担保人");
                 currency.setText("货币");

@@ -370,7 +370,7 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
                     userlink.add(jsonArray.get(i).toString());
                 }
                 Log.e(TAG, "userlink = " + userlink);
-                linksettingList = new LinksettingList(this, userlink, getInnerItem);
+                linksettingList = new LinksettingList(this, userlink, getInnerItem, company, account);
                 loading.dismiss();
             } else if (result.matches("error1")) {
                 loading.dismiss();
@@ -397,34 +397,40 @@ public class LinksettingActivity extends AppCompatActivity implements LinkListen
     }
 
     @Override
-    public void itemOnClick(View v) {
-        if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-            new AlertDialog.Builder(this)
-                    .setTitle("努霸財富管家")
-                    .setIcon(R.drawable.app_icon_mini)
-                    .setMessage("Are you sure to cancel?")
-                    .setPositiveButton("Yes", (dialog, which) -> cancelLink(v))
-                    .setNegativeButton("No", (dialog, which) -> {
-                        // TODO Auto-generated method stub
-                    }).show();
-        } else if (Value.language_flag == 1) {
-            new AlertDialog.Builder(this)
-                    .setTitle("努霸財富管家")
-                    .setIcon(R.drawable.app_icon_mini)
-                    .setMessage("確定要取消嗎?")
-                    .setPositiveButton("確定", (dialog, which) -> cancelLink(v))
-                    .setNegativeButton("取消", (dialog, which) -> {
-                        // TODO Auto-generated method stub
-                    }).show();
-        } else if (Value.language_flag == 2) {
-            new AlertDialog.Builder(this)
-                    .setTitle("努霸财富管家")
-                    .setIcon(R.drawable.app_icon_mini)
-                    .setMessage("确定要取消吗?")
-                    .setPositiveButton("确定", (dialog, which) -> cancelLink(v))
-                    .setNegativeButton("取消", (dialog, which) -> {
-                        // TODO Auto-generated method stub
-                    }).show();
+    public void itemOnClick(View v, String nowcompany, String nowaccount) {
+        if(v.getId() == R.id.textView3) {
+            if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                new AlertDialog.Builder(this)
+                        .setTitle("努霸財富管家")
+                        .setIcon(R.drawable.app_icon_mini)
+                        .setMessage("Are you sure to cancel?")
+                        .setPositiveButton("Yes", (dialog, which) -> cancelLink(v))
+                        .setNegativeButton("No", (dialog, which) -> {
+                            // TODO Auto-generated method stub
+                        }).show();
+            } else if (Value.language_flag == 1) {
+                new AlertDialog.Builder(this)
+                        .setTitle("努霸財富管家")
+                        .setIcon(R.drawable.app_icon_mini)
+                        .setMessage("確定要取消嗎?")
+                        .setPositiveButton("確定", (dialog, which) -> cancelLink(v))
+                        .setNegativeButton("取消", (dialog, which) -> {
+                            // TODO Auto-generated method stub
+                        }).show();
+            } else if (Value.language_flag == 2) {
+                new AlertDialog.Builder(this)
+                        .setTitle("努霸财富管家")
+                        .setIcon(R.drawable.app_icon_mini)
+                        .setMessage("确定要取消吗?")
+                        .setPositiveButton("确定", (dialog, which) -> cancelLink(v))
+                        .setNegativeButton("取消", (dialog, which) -> {
+                            // TODO Auto-generated method stub
+                        }).show();
+            }
+        }else if(v.getId() == R.id.button1){
+            company = nowcompany;
+            account = nowaccount;
+            backform();
         }
     }
 

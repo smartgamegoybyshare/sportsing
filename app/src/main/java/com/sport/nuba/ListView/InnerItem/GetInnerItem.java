@@ -10,9 +10,9 @@ public class GetInnerItem {
         innerItemOnclickListener = mInnerItemOnclickListener;
     }
 
-    public void clickItem(View view){
+    public void clickItem(View view, String company, String account){
         if(innerItemOnclickListener != null && view != null){
-            innerItemOnclickListener.itemOnClick(view);
+            innerItemOnclickListener.itemOnClick(view, company, account);
         }
     }
 }

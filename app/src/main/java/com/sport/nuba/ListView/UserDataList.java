@@ -74,10 +74,11 @@ public class UserDataList extends BaseAdapter {
 
         if (position != user_record.size() - 1) {
             JSONObject jsonObject;
-            String check = "";
+            String check = "", last_chaeck = "";
             try {
                 jsonObject = new JSONObject(user_record.get(position));
                 check = jsonObject.get("record_check").toString();
+                last_chaeck = jsonObject.get("record_last_check").toString();
                 if(Value.language_flag == 0){  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     date.setText(jsonObject.get("record_datetime_en").toString());
                     chart_code.setText(jsonObject.get("record_chartcode_en").toString());
@@ -118,14 +119,43 @@ public class UserDataList extends BaseAdapter {
             }
 
             if(check.matches("1")){
-                linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
-                linearLayout2.setBackgroundResource(R.drawable.datalist_frame_gray);
-                linearLayout3.setBackgroundResource(R.drawable.datalist_frame_gray);
-                linearLayout4.setBackgroundResource(R.drawable.datalist_frame_gray);
-                linearLayout5.setBackgroundResource(R.drawable.datalist_frame_gray);
-                linearLayout6.setBackgroundResource(R.drawable.datalist_frame_gray);
-                linearLayout7.setBackgroundResource(R.drawable.datalist_frame_gray);
-            }else {
+                if(last_chaeck.matches("0")) {
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                }else if(last_chaeck.matches("1")){
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                }
+            }else if(check.matches("2")){
+                if(last_chaeck.matches("0")) {
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_red);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_red);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_red);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_red);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_red);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_red);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame_red);
+                }else if(last_chaeck.matches("1")){
+                    linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame_darkblue);
+                    linearLayout2.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                    linearLayout3.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                    linearLayout4.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                    linearLayout5.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                    linearLayout6.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                    linearLayout7.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                }
+            }
+            else {
                 if (position % 2 == 0) {
                     linearLayout1.setBackgroundResource(R.drawable.datalist_start_frame);
                     linearLayout2.setBackgroundResource(R.drawable.datalist_frame);

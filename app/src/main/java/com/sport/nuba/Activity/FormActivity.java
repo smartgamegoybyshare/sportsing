@@ -457,14 +457,42 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                     if (position != Value.user_record.size() - 1) {
                         if (select_item != Value.user_record.size() - 1) {
                             if(jsonObject.get("record_check").toString().matches("1")){
-                                lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
-                                lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
-                            }else {
+                                if(jsonObject.get("record_last_check").toString().matches("0")) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                }else if(jsonObject.get("record_last_check").toString().matches("1")){
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                }
+                            }else if(jsonObject.get("record_check").toString().matches("2")){
+                                if(jsonObject.get("record_last_check").toString().matches("0")) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_red);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_red);
+                                }else if(jsonObject.get("record_last_check").toString().matches("1")){
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_darkblue);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                }
+                            } else {
                                 if (select_item % 2 == 0) {
                                     lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
                                     lineaBackground2.setBackgroundResource(R.drawable.datalist_frame);
@@ -511,13 +539,41 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
                     } else {
                         if (select_item != Value.user_record.size() - 1) {
                             if(jsonObject.get("record_check").toString().matches("1")){
-                                lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
-                                lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
-                                lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                if(jsonObject.get("record_last_check").toString().matches("0")) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_gray);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_gray);
+                                }else if(jsonObject.get("record_last_check").toString().matches("1")){
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_yellow);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_yellow);
+                                }
+                            }else if(jsonObject.get("record_check").toString().matches("2")){
+                                if(jsonObject.get("record_last_check").toString().matches("0")) {
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_red);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_red);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_red);
+                                }else if(jsonObject.get("record_last_check").toString().matches("1")){
+                                    lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame_darkblue);
+                                    lineaBackground2.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground3.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground4.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground5.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground6.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                    lineaBackground7.setBackgroundResource(R.drawable.datalist_frame_darkblue);
+                                }
                             }else {
                                 if (select_item % 2 == 0) {
                                     lineaBackground1.setBackgroundResource(R.drawable.datalist_start_frame);
@@ -653,7 +709,7 @@ public class FormActivity extends AppCompatActivity implements UserdataListener,
             textView2.setText("Add Account");
             textView3.setText("Language");
         } else if (Value.language_flag == 1) {
-            textView1.setText("戶口資料");
+            textView1.setText("戶口帳號");
             textView2.setText("綁定戶口");
             textView3.setText("語言");
         } else if (Value.language_flag == 2) {

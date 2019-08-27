@@ -390,29 +390,38 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 InputStream uin = urlCon.getInputStream();
                 BufferedReader in = new BufferedReader(new InputStreamReader(uin));
                 boolean more = true;
-                String line;
+                String line = "";
                 for (; more; ) {
-                    line = in.readLine();
-                    if (line != null) {
-                        if (line.contains("text")) {
-                            line = "{" + line + "}";
-                            JSONObject jsonObject = new JSONObject(line);
-                            imformation = jsonObject.getString("text");
-                            Log.e(TAG, "imformation.lenth = " + imformation.length());
-                            if (imformation.length() < 80) {
-                                StringBuilder imformationBuilder = new StringBuilder(imformation);
-                                for (int j = imformationBuilder.length(); j < 80; j++) {
-                                    imformationBuilder.append("  ");
-                                }
-                                imformation = imformationBuilder.toString();
-                            }
-                            announceHandler.post(() -> {
-                                announcement.setText(imformation);
-                                checkHandler.removeCallbacksAndMessages(null);
-                            });
-                        }
-                    } else more = false;
+                    String getline = in.readLine();
+                    Log.e(TAG, "getline = " + getline);
+                    if (getline != null) {
+                        line = line + getline;
+                    }
+                    else {
+                        break;
+                    }
                 }
+                Log.e(TAG, "line = " + line);
+                JSONObject jsonObject = new JSONObject(line);
+                Log.e(TAG, "jsonObject = " + jsonObject);
+                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                    imformation = jsonObject.getString("text_en");
+                }else if(Value.language_flag == 1){
+                    imformation = jsonObject.getString("text_tw");
+                }else if(Value.language_flag == 2){
+                    imformation = jsonObject.getString("text_cn");
+                }
+                if (imformation.length() < 80) {
+                    StringBuilder imformationBuilder = new StringBuilder(imformation);
+                    for (int j = imformationBuilder.length(); j < 80; j++) {
+                        imformationBuilder.append("  ");
+                    }
+                    imformation = imformationBuilder.toString();
+                }
+                announceHandler.post(() -> {
+                    announcement.setText(imformation);
+                    checkHandler.removeCallbacksAndMessages(null);
+                });
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
