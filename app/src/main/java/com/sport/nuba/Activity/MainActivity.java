@@ -4,14 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,17 +26,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.sport.nuba.Language.LanguageChose;
 import com.sport.nuba.Language.LanguageListener;
 import com.sport.nuba.Language.SetLanguage;
 import com.sport.nuba.ListView.Home.NewsList;
 import com.sport.nuba.PageView.PageAdapter;
-import com.sport.nuba.PageView.PageFourView;
-import com.sport.nuba.PageView.PageOneView;
-import com.sport.nuba.PageView.PageThreeView;
-import com.sport.nuba.PageView.PageTwoView;
+import com.sport.nuba.PageView.PageFourView_Logout;
+import com.sport.nuba.PageView.PageOneView_Logout;
+import com.sport.nuba.PageView.PageThreeView_Logout;
+import com.sport.nuba.PageView.PageTwoView_Logout;
 import com.sport.nuba.PageView.PageView;
 import com.sport.nuba.PageView.ViewPagerIndicator;
 import com.sport.nuba.Post_Get.Login.ConnectListener;
@@ -47,14 +44,13 @@ import com.sport.nuba.Post_Get.Login.GetConnect;
 import com.sport.nuba.R;
 import com.sport.nuba.SQL.LanguageSQL;
 import com.sport.nuba.SQL.LoginSQL;
+import com.sport.nuba.Support.InternetImage;
 import com.sport.nuba.Support.Loading;
 import com.sport.nuba.Support.MarqueeTextView;
 import com.sport.nuba.Support.Screen;
 import com.sport.nuba.Support.Value;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,9 +60,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.droidsonroids.gif.GifImageView;
-
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -95,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private Handler viewpageHandler = new Handler();
     private LanguageChose languageChose = new LanguageChose(this);
     private SetLanguage setLanguage = new SetLanguage();
-    private Handler checkHandler = new Handler(), titleHandler = new Handler(),
-            adHandler = new Handler(), announceHandler = new Handler();
+    private InternetImage internetImage = new InternetImage();
+    private Handler checkHandler = new Handler(), titleHandler = new Handler(), announceHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,55 +119,37 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
 
     @SuppressLint("ClickableViewAccessibility")
     private void showview() {
-        setContentView(R.layout.homepage);
-
-        imageViewtitle = findViewById(R.id.imageView1);
-        ImageView homebuttondown = findViewById(R.id.homebuttondown);   //隱藏的上拉view
-        LinearLayout gif_linear = findViewById(R.id.linear_gif);    //廣告欄
-        LinearLayout bottom = findViewById(R.id.bottom_button); //隱藏的上拉view的欄框
-        LinearLayout object = findViewById(R.id.edit_object);   //上拉view的欄框
-        listView = findViewById(R.id.listview);    //公告列表
-        editText1 = findViewById(R.id.editText1);   //公司
-        editText2 = findViewById(R.id.editText2);  //戶口
-        editText3 = findViewById(R.id.editText3);  //密碼
-        checkBox = findViewById(R.id.checkBox);    //記住我的登入資訊
-        login = findViewById(R.id.login);   //登入按鈕
-        announcement = findViewById(R.id.textView1);   //公告字串
-        viewPager = findViewById(R.id.pager);   //slider廣告介面
-        viewPagerIndicator = findViewById(R.id.indicator);  //slider下的點點
-        BottomSheetBehavior behavior = BottomSheetBehavior.from(findViewById(R.id.scroll)); //上拉view
-        new Thread(announce).start();
-        setLanguage.isSet();
-
-        object.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (4 * dm.heightPixels) / 10));
-        bottom.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels / 10));
-        gifImageView1 = findViewById(R.id.imageView4); //廣告圖
-
-        Runnable gettitle = () -> {
-            String imageUri = "https://dl.kz168168.com/img/android-logo01.png";
-            bitmap_title = fetchImage(imageUri);
-            titleHandler.post(() -> {
-                imageViewtitle.setImageBitmap(bitmap_title);
-                imageViewtitle.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            });
-        };
-        new Thread(gettitle).start();
         try {
+            setContentView(R.layout.homepage);
+
+            imageViewtitle = findViewById(R.id.imageView1);
+            ImageView homebuttondown = findViewById(R.id.homebuttondown);   //隱藏的上拉view
+            LinearLayout gif_linear = findViewById(R.id.linear_gif);    //廣告欄
+            LinearLayout bottom = findViewById(R.id.bottom_button); //隱藏的上拉view的欄框
+            LinearLayout object = findViewById(R.id.edit_object);   //上拉view的欄框
+            listView = findViewById(R.id.listview);    //公告列表
+            editText1 = findViewById(R.id.editText1);   //公司
+            editText2 = findViewById(R.id.editText2);  //戶口
+            editText3 = findViewById(R.id.editText3);  //密碼
+            checkBox = findViewById(R.id.checkBox);    //記住我的登入資訊
+            login = findViewById(R.id.login);   //登入按鈕
+            announcement = findViewById(R.id.textView1);   //公告字串
+            viewPager = findViewById(R.id.pager);   //slider廣告介面
+            viewPagerIndicator = findViewById(R.id.indicator);  //slider下的點點
+            BottomSheetBehavior behavior = BottomSheetBehavior.from(findViewById(R.id.scroll)); //上拉view
+            new Thread(announce).start();
+            setLanguage.isSet();
+
+            object.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (4 * dm.heightPixels) / 10));
+            bottom.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, dm.heightPixels / 10));
+            gifImageView1 = findViewById(R.id.imageView4); //廣告圖
             /*
             因上拉頁面nestedscrollview無法使用適配螢幕比
             故以下為與IOS相同之寬高比例計算適配廣告欄高度
             */
             double gif_height = dm.widthPixels / 6.25;
             gif_linear.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, (int) gif_height));
-            Runnable getimage = () -> {
-                String imageUri = "https://dl.kz168168.com/img/android-ad01.png";
-                preview_bitmap = fetchImage(imageUri);
-                adHandler.post(() -> {
-                    gifImageView1.setImageBitmap(preview_bitmap);
-                    gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                });
-            };
-            new Thread(getimage).start();
+            new Thread(getImage).start();
             /*GifDrawable gifFromPath = new GifDrawable(this.getResources(), R.drawable.adphoto);
             gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
             gifImageView1.setImageDrawable(gifFromPath);*/
@@ -186,118 +162,134 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             String thisversion = getVersionName(MainActivity.this);
             Log.e(TAG, "thisversion = " + thisversion);
             Value.ver = thisversion;
+
+            listView();
+
+            announcement.setOnClickListener(view -> showhowto());
+
+            List<String> dataList = new ArrayList<>();
+            dataList.clear();
+            dataList = loginSQL.getlist();
+            if (dataList.size() != 0) {
+                editText1.setText(dataList.get(0));
+                editText2.setText(dataList.get(1));
+                editText3.setText(dataList.get(2));
+                checkBox.setChecked(true);
+            }
+
+            //homebuttondown.setBackgroundResource(R.drawable.homebutton);  //android:background語法
+            homebuttondown.setImageDrawable(this.getResources().getDrawable((R.drawable.homebutton)));  //android:src語法
+            homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);   //ScaleType等比例縮放僅適用android:src語法
+            homebuttondown.setOnClickListener(view -> {
+                if (behavior.getState() == STATE_EXPANDED) {
+                    behavior.setState(STATE_COLLAPSED);
+                } else if (behavior.getState() == STATE_COLLAPSED) {
+                    behavior.setState(STATE_EXPANDED);
+                }
+            });
+
+            login.setOnClickListener(v -> {
+                company = editText1.getText().toString().trim();
+                account = editText2.getText().toString().trim();
+                password = editText3.getText().toString().trim();
+
+                if (company.matches("")) {
+                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                        Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 1) {
+                        Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 2) {
+                        Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                } else if (account.matches("")) {
+                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                        Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 1) {
+                        Toast toast = Toast.makeText(this, "戶口不可為空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 2) {
+                        Toast toast = Toast.makeText(this, "户口不可为空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                } else if (password.matches("")) {
+                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                        Toast toast = Toast.makeText(this, "Password is empty", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 1) {
+                        Toast toast = Toast.makeText(this, "密碼不可為空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else if (Value.language_flag == 2) {
+                        Toast toast = Toast.makeText(this, "密码不可为空", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                } else {
+                    if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
+                        loading.show("Logining...");
+                    } else if (Value.language_flag == 1) {
+                        loading.show("登入中...");
+                    } else if (Value.language_flag == 2) {
+                        loading.show("登陆中...");
+                    }
+                    connected.setConnect(company, account, password, getConnect);
+                }
+            });
+
+            behavior.setPeekHeight(dm.heightPixels / 14);
+            behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    if (newState == STATE_EXPANDED) {
+                        homebuttondown.setImageDrawable(MainActivity.this.getResources().
+                                getDrawable((R.drawable.homebuttondown)));
+                        homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    }
+                    if (newState == STATE_COLLAPSED) {
+                        homebuttondown.setImageDrawable(MainActivity.this.getResources().
+                                getDrawable((R.drawable.homebutton)));
+                        homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+                }
+            });
+
+            setlistViewAdapter();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        listView();
-
-        String announce_text = "";
-        announcement.setOnClickListener(view -> showhowto());
-
-        List<String> dataList = new ArrayList<>();
-        dataList.clear();
-        dataList = loginSQL.getlist();
-        if (dataList.size() != 0) {
-            editText1.setText(dataList.get(0));
-            editText2.setText(dataList.get(1));
-            editText3.setText(dataList.get(2));
-            checkBox.setChecked(true);
-        }
-
-        //homebuttondown.setBackgroundResource(R.drawable.homebutton);  //android:background語法
-        homebuttondown.setImageDrawable(this.getResources().getDrawable((R.drawable.homebutton)));  //android:src語法
-        homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);   //ScaleType等比例縮放僅適用android:src語法
-        homebuttondown.setOnClickListener(view -> {
-            if (behavior.getState() == STATE_EXPANDED) {
-                behavior.setState(STATE_COLLAPSED);
-            } else if (behavior.getState() == STATE_COLLAPSED) {
-                behavior.setState(STATE_EXPANDED);
-            }
-        });
-
-        login.setOnClickListener(v -> {
-            company = editText1.getText().toString().trim();
-            account = editText2.getText().toString().trim();
-            password = editText3.getText().toString().trim();
-
-            if (company.matches("")) {
-                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Sub Account is empty", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "子帳號不可為空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "子帐号不可为空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            } else if (account.matches("")) {
-                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "User is empty", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "戶口不可為空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "户口不可为空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            } else if (password.matches("")) {
-                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    Toast toast = Toast.makeText(this, "Password is empty", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 1) {
-                    Toast toast = Toast.makeText(this, "密碼不可為空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (Value.language_flag == 2) {
-                    Toast toast = Toast.makeText(this, "密码不可为空", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            } else {
-                if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    loading.show("Logining...");
-                } else if (Value.language_flag == 1) {
-                    loading.show("登入中...");
-                } else if (Value.language_flag == 2) {
-                    loading.show("登陆中...");
-                }
-                connected.setConnect(company, account, password, getConnect);
-            }
-        });
-
-        behavior.setPeekHeight(dm.heightPixels / 14);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == STATE_EXPANDED) {
-                    homebuttondown.setImageDrawable(MainActivity.this.getResources().
-                            getDrawable((R.drawable.homebuttondown)));
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                if (newState == STATE_COLLAPSED) {
-                    homebuttondown.setImageDrawable(MainActivity.this.getResources().
-                            getDrawable((R.drawable.homebutton)));
-                    homebuttondown.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
-
-        setlistViewAdapter();
     }
+
+    private Runnable getImage = new Runnable() {
+        @Override
+        public void run() {
+            String imageUri = "https://dl.kz168168.com/img/android-logo01.png";
+            String imageUri2 = "https://dl.kz168168.com/img/android-ad01.png";
+            bitmap_title = internetImage.fetchImage(imageUri);
+            preview_bitmap = internetImage.fetchImage(imageUri2);
+            titleHandler.post(() -> {
+                imageViewtitle.setImageBitmap(bitmap_title);
+                imageViewtitle.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                gifImageView1.setImageBitmap(preview_bitmap);
+                gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            });
+        }
+    };
 
     private Runnable test = this::getVersion;
 
@@ -325,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                             checkHandler.post(() -> {
                                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                                     new AlertDialog.Builder(this)
-                                            .setTitle("努霸財富管家")
+                                            .setTitle("三昇澳門")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("This app have a new version.\nDo you want to update?")
                                             .setPositiveButton("Yes", (dialog, which) -> {
@@ -337,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                             }).show();
                                 } else if (Value.language_flag == 1) {
                                     new AlertDialog.Builder(this)
-                                            .setTitle("努霸財富管家")
+                                            .setTitle("三昇澳門")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("偵測到有新版本\n現在要更新嗎?")
                                             .setPositiveButton("確定", (dialog, which) -> {
@@ -349,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                                             }).show();
                                 } else if (Value.language_flag == 2) {
                                     new AlertDialog.Builder(this)
-                                            .setTitle("努霸财富管家")
+                                            .setTitle("三昇澳门")
                                             .setIcon(R.drawable.app_icon_mini)
                                             .setMessage("侦测到有新版本\n现在要更新吗?")
                                             .setPositiveButton("确定", (dialog, which) -> {
@@ -396,8 +388,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                     Log.e(TAG, "getline = " + getline);
                     if (getline != null) {
                         line = line + getline;
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }
@@ -406,9 +397,9 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                 Log.e(TAG, "jsonObject = " + jsonObject);
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     imformation = jsonObject.getString("text_en");
-                }else if(Value.language_flag == 1){
+                } else if (Value.language_flag == 1) {
                     imformation = jsonObject.getString("text_tw");
-                }else if(Value.language_flag == 2){
+                } else if (Value.language_flag == 2) {
                     imformation = jsonObject.getString("text_cn");
                 }
                 if (imformation.length() < 80) {
@@ -436,23 +427,6 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
         Intent intent = new Intent(this, HowtoActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private Bitmap fetchImage(String urlstr) {  //連接網頁獲取的圖片
-        try {
-            URL url;
-            url = new URL(urlstr);
-            HttpURLConnection c = (HttpURLConnection) url.openConnection();
-            c.setDoInput(true);
-            c.connect();
-            InputStream is = c.getInputStream();
-            Bitmap img;
-            img = BitmapFactory.decodeStream(is);
-            return img;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private void getNewVersion() {
@@ -489,10 +463,10 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
     private void listView() {
         pageList = new ArrayList<>();
         pageList.clear();
-        pageList.add(new PageOneView(this));
-        pageList.add(new PageTwoView(this));
-        pageList.add(new PageThreeView(this));
-        pageList.add(new PageFourView(this));
+        pageList.add(new PageOneView_Logout(this));
+        pageList.add(new PageTwoView_Logout(this));
+        pageList.add(new PageThreeView_Logout(this));
+        pageList.add(new PageFourView_Logout(this));
         PageAdapter pageAdapter = new PageAdapter(initItemList());
         viewPager.setAdapter(pageAdapter);
         viewPager.setCurrentItem(1);
@@ -567,7 +541,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
             case KeyEvent.KEYCODE_BACK: {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     new AlertDialog.Builder(this)
-                            .setTitle("努霸財富管家")
+                            .setTitle("三昇澳門")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("Do you want to exit?")
                             .setPositiveButton("Yes", (dialog, which) -> finish())
@@ -576,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                             }).show();
                 } else if (Value.language_flag == 1) {
                     new AlertDialog.Builder(this)
-                            .setTitle("努霸財富管家")
+                            .setTitle("三昇澳門")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("確定要離開?")
                             .setPositiveButton("離開", (dialog, which) -> finish())
@@ -585,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements ConnectListener, 
                             }).show();
                 } else if (Value.language_flag == 2) {
                     new AlertDialog.Builder(this)
-                            .setTitle("努霸财富管家")
+                            .setTitle("三昇澳门")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("确定要离开?")
                             .setPositiveButton("离开", (dialog, which) -> finish())

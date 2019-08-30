@@ -16,12 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.sport.nuba.Language.LanguageListener;
 import com.sport.nuba.Language.SetLanguage;
@@ -41,20 +39,16 @@ import com.sport.nuba.SQL.LoginSQL;
 import com.sport.nuba.Support.MarqueeTextView;
 import com.sport.nuba.Support.Screen;
 import com.sport.nuba.Support.Value;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import pl.droidsonroids.gif.GifImageView;
-
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
@@ -81,7 +75,7 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
     private SetLanguage setLanguage = new SetLanguage();
     private Post post = new Post(this);
     private GetPost getPost = new GetPost();
-    private Handler checkHandler = new Handler(), titleHandler = new Handler(), adHandler = new Handler();
+    private Handler titleHandler = new Handler(), adHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,29 +325,41 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
                 break;
             case KeyEvent.KEYCODE_BACK: {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                    new AlertDialog.Builder(this)
-                            .setTitle("努霸財富管家")
+                    new AlertDialog.Builder(LoginMainActivity.this)
+                            .setTitle("三昇澳門")
                             .setIcon(R.drawable.app_icon_mini)
-                            .setMessage("Do you want to exit?")
-                            .setPositiveButton("Yes", (dialog, which) -> finish())
+                            .setMessage("Do you want to Logout?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            })
                             .setNegativeButton("No", (dialog, which) -> {
                                 // TODO Auto-generated method stub
                             }).show();
                 } else if (Value.language_flag == 1) {
-                    new AlertDialog.Builder(this)
-                            .setTitle("努霸財富管家")
+                    new AlertDialog.Builder(LoginMainActivity.this)
+                            .setTitle("三昇澳門")
                             .setIcon(R.drawable.app_icon_mini)
-                            .setMessage("確定要離開?")
-                            .setPositiveButton("離開", (dialog, which) -> finish())
+                            .setMessage("確定要登出?")
+                            .setPositiveButton("確定", (dialog, which) -> {
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            })
                             .setNegativeButton("取消", (dialog, which) -> {
                                 // TODO Auto-generated method stub
                             }).show();
                 } else if (Value.language_flag == 2) {
-                    new AlertDialog.Builder(this)
-                            .setTitle("努霸财富管家")
+                    new AlertDialog.Builder(LoginMainActivity.this)
+                            .setTitle("三昇澳门")
                             .setIcon(R.drawable.app_icon_mini)
-                            .setMessage("确定要离开?")
-                            .setPositiveButton("离开", (dialog, which) -> finish())
+                            .setMessage("确定要登出?")
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            })
                             .setNegativeButton("取消", (dialog, which) -> {
                                 // TODO Auto-generated method stub
                             }).show();
@@ -437,7 +443,14 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
                 JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
                 Log.e(TAG, "jsonObject = " + jsonObject);
                 if (jsonObject.get("post_category").toString().matches("marquee")) {
-                    String announce_text = jsonObject.get("post_name").toString();
+                    String announce_text = "";
+                    if(Value.language_flag == 0){
+                        announce_text = jsonObject.get("post_name_en").toString();
+                    }else if(Value.language_flag == 1){
+                        announce_text = jsonObject.get("post_name_tw").toString();
+                    }else if(Value.language_flag == 2){
+                        announce_text = jsonObject.get("post_name_cn").toString();
+                    }
                     Log.e(TAG, "announce_text.lenth = " + announce_text.length());
                     if (announce_text.length() < 80) {
                         StringBuilder announce_textBuilder = new StringBuilder(announce_text);
@@ -448,7 +461,14 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
                     }
                     announcement.setText(announce_text);
                 } else {
-                    String news = jsonObject.get("post_name").toString();
+                    String news = "";
+                    if(Value.language_flag == 0){
+                        news = jsonObject.get("post_name_en").toString();
+                    }else if(Value.language_flag == 1){
+                        news = jsonObject.get("post_name_tw").toString();
+                    }else if(Value.language_flag == 2){
+                        news = jsonObject.get("post_name_cn").toString();
+                    }
                     news_api.add(news);
                     Log.e(TAG, "news_api = " + news_api);
                 }

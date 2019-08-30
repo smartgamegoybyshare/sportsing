@@ -3,7 +3,6 @@ package com.sport.nuba.Activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,22 +11,16 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.sport.nuba.Language.LanguageListener;
 import com.sport.nuba.Language.SetLanguage;
 import com.sport.nuba.R;
+import com.sport.nuba.Support.InternetImage;
 import com.sport.nuba.Support.Value;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -40,6 +33,7 @@ public class Howto2Activity extends AppCompatActivity implements LanguageListene
     private GifImageView gifImageView1;
     private String company, account;
     private Handler handler = new Handler();
+    private InternetImage internetImage = new InternetImage();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,7 +47,6 @@ public class Howto2Activity extends AppCompatActivity implements LanguageListene
         get_Intent();
         title = findViewById(R.id.textView);   //對帳通知
         back = findViewById(R.id.textView1);   //返回
-        TextView textView2 = findViewById(R.id.textView2);
         TextView textView3 = findViewById(R.id.textView3);
         TextView textView4 = findViewById(R.id.textView4);
         copyright = findViewById(R.id.copyright);
@@ -63,7 +56,7 @@ public class Howto2Activity extends AppCompatActivity implements LanguageListene
         try {
             Runnable getimage = () -> {
                 String imageUri = "https://dl.kz168168.com/img/android-ad02.png";
-                preview_bitmap = fetchImage(imageUri);
+                preview_bitmap = internetImage.fetchImage(imageUri);
                 handler.post(() -> {
                     gifImageView1.setImageBitmap(preview_bitmap);
                     gifImageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -87,15 +80,12 @@ public class Howto2Activity extends AppCompatActivity implements LanguageListene
         }
 
         if(Value.language_flag == 0){
-            textView2.setText("[對帳提醒]");
-            textView3.setText("敬愛的客戶您好，提醒您於帳務核對無誤後，");
-            textView4.setText("按下「確認對帳」按鈕完成對帳確認。");
+            textView3.setText(" Please press \"Check All\"");
+            textView4.setText("after confirm the details.");
         }else if(Value.language_flag == 1){
-            textView2.setText("[對帳提醒]");
             textView3.setText("敬愛的客戶您好，提醒您於帳務核對無誤後，");
             textView4.setText("按下「確認對帳」按鈕完成對帳確認。");
         }else if(Value.language_flag == 2){
-            textView2.setText("[对帐提醒]");
             textView3.setText("敬爱的客户您好，提醒您于帐务核对无误后，");
             textView4.setText("按下「确认对帐」按钮完成对帐确认。");
         }
@@ -112,23 +102,6 @@ public class Howto2Activity extends AppCompatActivity implements LanguageListene
         account = intent.getStringExtra("account");
         Log.e(TAG, "company = " + company);
         Log.e(TAG, "account = " + account);
-    }
-
-    private Bitmap fetchImage(String urlstr ) {  //連接網頁獲取的圖片
-        try {
-            URL url;
-            url = new URL(urlstr);
-            HttpURLConnection c = ( HttpURLConnection ) url.openConnection();
-            c.setDoInput( true );
-            c.connect();
-            InputStream is = c.getInputStream();
-            Bitmap img;
-            img = BitmapFactory.decodeStream(is);
-            return img;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private String getDateTime() {

@@ -13,14 +13,14 @@ import com.sport.nuba.R;
 import com.sport.nuba.Support.InternetImage;
 import com.sport.nuba.Support.Value;
 
-public class PageTwoView extends PageView {
+public class PageTwoView_Logout extends PageView {
 
     private Bitmap preview_bitmap;
     private ImageView imageView;
     private Handler handler = new Handler();
     private InternetImage internetImage = new InternetImage();
 
-    public PageTwoView(Context context) {
+    public PageTwoView_Logout(Context context) {
         super(context);
 
         @SuppressLint("InflateParams")

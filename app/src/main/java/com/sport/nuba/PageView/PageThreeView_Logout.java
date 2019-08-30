@@ -13,14 +13,14 @@ import com.sport.nuba.R;
 import com.sport.nuba.Support.InternetImage;
 import com.sport.nuba.Support.Value;
 
-public class PageTwoView extends PageView {
+public class PageThreeView_Logout extends PageView {
 
     private Bitmap preview_bitmap;
     private ImageView imageView;
     private Handler handler = new Handler();
     private InternetImage internetImage = new InternetImage();
 
-    public PageTwoView(Context context) {
+    public PageThreeView_Logout(Context context) {
         super(context);
 
         @SuppressLint("InflateParams")
@@ -29,11 +29,11 @@ public class PageTwoView extends PageView {
         Runnable getimage = () -> {
             String imageUri = "";
             if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
-                imageUri = "https://dl.kz168168.com/img/android-slider02_en.png";
+                imageUri = "https://dl.kz168168.com/img/android-slider03_en.png";
             }else if(Value.language_flag == 1){
-                imageUri = "https://dl.kz168168.com/img/android-slider02_tw.png";
+                imageUri = "https://dl.kz168168.com/img/android-slider03_tw.png";
             }else if(Value.language_flag == 2){
-                imageUri = "https://dl.kz168168.com/img/android-slider02_cn.png";
+                imageUri = "https://dl.kz168168.com/img/android-slider03_cn.png";
             }
             preview_bitmap = internetImage.fetchImage(imageUri);
             handler.post(() -> imageView.setImageBitmap(preview_bitmap));
@@ -41,7 +41,7 @@ public class PageTwoView extends PageView {
         new Thread(getimage).start();
         /*MakeBitmap makeBitmap = new MakeBitmap();
         imageView.setImageBitmap(makeBitmap.getRoundedCornerBitmap(BitmapFactory.decodeResource(getResources(),
-                R.drawable.slider02), 45f));*/
+                R.drawable.slider03), 45f));*/
         imageView.setOnClickListener(v -> {
             Uri uri = Uri.parse("http://3singsport.win");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
