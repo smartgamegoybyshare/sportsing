@@ -326,7 +326,7 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
             case KeyEvent.KEYCODE_BACK: {
                 if (Value.language_flag == 0) {  //flag = 0 => Eng, flag = 1 => Cht, flag = 2 => Chs
                     new AlertDialog.Builder(LoginMainActivity.this)
-                            .setTitle("三昇澳門")
+                            .setTitle("努霸財富管家")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("Do you want to Logout?")
                             .setPositiveButton("Yes", (dialog, which) -> {
@@ -339,7 +339,7 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
                             }).show();
                 } else if (Value.language_flag == 1) {
                     new AlertDialog.Builder(LoginMainActivity.this)
-                            .setTitle("三昇澳門")
+                            .setTitle("努霸財富管家")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("確定要登出?")
                             .setPositiveButton("確定", (dialog, which) -> {
@@ -352,7 +352,7 @@ public class LoginMainActivity extends AppCompatActivity implements LanguageList
                             }).show();
                 } else if (Value.language_flag == 2) {
                     new AlertDialog.Builder(LoginMainActivity.this)
-                            .setTitle("三昇澳门")
+                            .setTitle("努霸财富管家")
                             .setIcon(R.drawable.app_icon_mini)
                             .setMessage("确定要登出?")
                             .setPositiveButton("确定", (dialog, which) -> {
